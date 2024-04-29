@@ -11,10 +11,13 @@ app.use(cors());
 app.use(router);
 app.use(bodyParser.json());
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  res.status(500).send({
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+  const statusCode = err.status || 500;
+  const statusMessage = err.message || 'Error';
+
+  res.status(statusCode).send({
     error: true,
-    message: err,
+    message: statusMessage,
     data: null,
   });
 });

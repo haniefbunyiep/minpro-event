@@ -13,10 +13,10 @@ const main = async () => {
 
     await tx.user.createMany({
       data: {
-        name: 'user',
-        email: 'user@gmail.com',
-        username: 'user123',
-        password: await HashingPassword({ password: 'axel300815' }),
+        name: 'admin',
+        email: 'admin@admin.com',
+        username: 'admin',
+        password: await HashingPassword({ password: 'admin' }),
         roleId: 1,
         referralCode: 'ABC123',
         point: 0,

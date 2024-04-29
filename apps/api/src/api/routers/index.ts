@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
-import TestRouter from './../test/TestRouter';
+import LoginRouter from './../login/LoginRouter';
 
 const router = Router();
 router.use(express.json());
 
-router.use('/test', TestRouter);
+router.use('/auth', LoginRouter);
 
 export default router;
