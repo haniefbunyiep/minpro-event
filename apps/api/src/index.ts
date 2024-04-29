@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   res.status(500).send({
     error: true,
-    message: err,
+    message: err.message,
     data: null,
   });
 });
