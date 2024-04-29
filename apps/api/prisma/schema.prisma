@@ -10,12 +10,149 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Sample {
+model User {
+  uid          String @id @default(cuid())
+  name         String
+  email        String
+  username     String
+  password     String
+  roleId       Int
+  referralCode String
+  point        Int
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Review      Review[]
+  Promotion   Promotion[]
+  Transaction Transaction[]
+
+  @@map("users")
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  User User[]
+
+  @@map("roles")
+}
+
+model Event {
+  id          Int      @id @default(autoincrement())
+  name        String
+  date        DateTime @db.Date
+  time        DateTime @db.Time()
+  location    String
+  description String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Ticket  Ticket[]
+  Voucher Voucher[]
+
+  @@map("events")
+}
+
+model Ticket {
+  id       Int    @id @default(autoincrement())
+  eventId  Int
+  event    Event  @relation(fields: [eventId], references: [id])
+  name     String
+  price    Int
+  quantity Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Voucher Voucher[]
+
+  @@map("tickets")
+}
+
+model Review {
+  id       Int    @id @default(autoincrement())
+  userId   String
+  user     User   @relation(fields: [userId], references: [uid])
+  rating   String
+  feedback String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("reviews")
+}
+
+model Transaction {
+  id         Int      @id @default(autoincrement())
+  date       DateTime @db.Date
+  time       DateTime @db.Time()
+  userId     String
+  user       User     @relation(fields: [userId], references: [uid])
+  name       String
+  ticketType String
+  quantity   Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("transactions")
+}
+
+model Promotion {
+  id        Int     @id @default(autoincrement())
+  userId    String
+  user      User    @relation(fields: [userId], references: [uid])
+  voucherId Int
+  voucher   Voucher @relation(fields: [voucherId], references: [id])
+  discount  Int
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("promotions")
+}
+
+model Voucher {
   id        Int      @id @default(autoincrement())
   name      String
-  code      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  code      String
+  eventId   Int
+  event     Event    @relation(fields: [id], references: [id])
+  ticketId  Int
+  ticket    Ticket   @relation(fields: [ticketId], references: [id])
+  pieces    Int
+  stok      Int
+  limited   Int
+  startDate DateTime @db.Date
+  endDate   DateTime @db.Date
 
-  @@map("samples") // if you want to use snake_case format
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Promotion Promotion[]
+
+  @@map("vouchers")
+}
+
+model Category {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  @@map("categories")
 }
