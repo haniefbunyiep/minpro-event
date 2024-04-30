@@ -58,10 +58,24 @@ model Event {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Ticket  Ticket[]
-  Voucher Voucher[]
+  Ticket     Ticket[]
+  Voucher    Voucher[]
+  EventImage EventImage[]
 
   @@map("events")
+}
+
+model EventImage {
+  id      Int    @id @default(autoincrement())
+  url     String
+  eventId Int
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("event_images")
 }
 
 model Ticket {

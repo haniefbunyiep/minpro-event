@@ -1,5 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
-import { createEventServices, EventServices } from './EventServices';
+import {
+  createEventServices,
+  EventServices,
+  listEventServices,
+} from './EventServices';
 
 export const EventController = async (
   req: Request,
@@ -42,6 +46,40 @@ export const createEventController = async (
       error: false,
       message: 'Create Success!',
       data: createResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const createEventImageController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    return res.status(201).send({
+      error: false,
+      message: 'Create Success!',
+      data: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const listEventController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const { page, per_page } = req.query;
+  try {
+    const listEventResult = await listEventServices({ page, per_page });
+    res.status(200).send({
+      error: false,
+      message: 'List Event Success!',
+      data: listEventResult,
     });
   } catch (error) {
     next(error);

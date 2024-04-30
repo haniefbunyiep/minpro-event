@@ -45,3 +45,15 @@ export const createEventServices = async ({
     },
   });
 };
+
+export const listEventServices = async ({ page, per_page }: any) => {
+  const listEvent = await prisma.event.findMany({
+    take: Number(per_page) || 5,
+    skip: (Number(page) - 1) * Number(per_page) || 0,
+  });
+  if (listEvent.length === 0) {
+    throw new Error('Page Not Found!');
+  } else {
+    return listEvent;
+  }
+};
