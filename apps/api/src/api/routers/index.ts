@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
-import TestRouter from './../test/TestRouter';
+import TicketRouter from '../ticket/TicketRouter';
 
 const router = Router();
 router.use(express.json());
 
-router.use('/test', TestRouter);
+router.use('/ticket', TicketRouter);
 
 export default router;
