@@ -3,8 +3,7 @@ import styles from './page.module.css';
 
 export default function Home() {
   return (
-    <div className="flex">
-      <div>Halo</div>
+    <div className="flex min-h-screen items-center justify-center">
       <div>Halo</div>
     </div>
   );

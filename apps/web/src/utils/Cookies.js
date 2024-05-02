@@ -8,3 +8,7 @@ export const setCookie = (accesstoken) => {
 export const getCookie = () => {
   return cookies().get('acctkn');
 };
+
+export const deleteCookie = () => {
+  return cookies().delete('acctkn');
+};

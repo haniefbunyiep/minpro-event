@@ -1,7 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { findUserByEmailService } from './LoginService';
-import { ComparePassword } from './../../helpers/Hashing';
+import { findUserByEmailService, keepLoginService } from './LoginService';
+import { ComparePassword } from '../../../helpers/Hashing';
 import { createToken } from '@/helpers/Token';
+import { IReqAccessToken } from '@/middleware/TokenVerify';
 
 export const login = async (
   req: Request,
@@ -32,6 +33,29 @@ export const login = async (
       data: {
         accestoken,
       },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const keepLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const reqToken = req as IReqAccessToken;
+    const { uid } = reqToken.payload;
+
+    const keepLoginResult = await keepLoginService({ uid });
+
+    if (!keepLoginResult) throw new Error('Keep Login Failed');
+
+    res.status(201).send({
+      error: false,
+      message: 'Keep Login Success',
+      data: { session: keepLoginResult.uid, name: keepLoginResult.name },
     });
   } catch (error) {
     next(error);

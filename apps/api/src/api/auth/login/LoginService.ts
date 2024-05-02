@@ -1,4 +1,4 @@
-import { prisma } from './../../lib/PrismaClient';
+import { prisma } from '../../../lib/PrismaClient';
 
 export const findUserByEmailService = async ({ email }: { email: string }) => {
   const findEmployee = await prisma.user.findFirst({
@@ -10,4 +10,12 @@ export const findUserByEmailService = async ({ email }: { email: string }) => {
   if (!findEmployee) throw new Error('User Not Found!');
 
   return findEmployee;
+};
+
+export const keepLoginService = async ({ uid }: { uid: string }) => {
+  return await prisma.user.findUnique({
+    where: {
+      uid: uid,
+    },
+  });
 };
