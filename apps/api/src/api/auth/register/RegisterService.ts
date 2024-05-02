@@ -4,11 +4,16 @@ import {
   IAddPointServiceParams,
   ICreateVoucherAfterUseReferralParams,
 } from './RegisterInterface';
+import { defaultExpireAt } from './../../../helpers/DefaultDateForUserVoucher';
 
 export const addPointInRegisterService = async ({
   referralCodeId,
   useBy,
 }: IAddPointServiceParams) => {
+  const currentDate = new Date(Date.now());
+  const getMonth = currentDate.getMonth() + 1;
+
+  // console.log(getMonth);
   await prisma.$transaction(async (tx) => {
     const findReferralCode = await tx.referall_Code.findFirst({
       where: {
@@ -22,23 +27,39 @@ export const addPointInRegisterService = async ({
       },
     });
 
-    if (findUserByReferral) {
-      await tx.user.update({
+    const findUserPoint = await tx.user_Point.findFirst({
+      where: {
+        id: findUserByReferral?.pointId,
+      },
+    });
+    // console.log(findUserPoint?.expireAt.getMonth()! + 1);
+    if (findUserPoint?.expireAt.getMonth()! + 1 === getMonth) {
+      await tx.user_Point.update({
         where: {
-          uid: findUserByReferral?.uid,
+          id: findUserByReferral?.pointId,
         },
         data: {
-          point: findUserByReferral?.point + 10_000,
+          point: findUserPoint?.point! + 10_000,
         },
       });
-
-      await tx.use_Referral.create({
+    } else {
+      await tx.user_Point.update({
+        where: {
+          id: findUserByReferral?.pointId,
+        },
         data: {
-          referralCodeId: referralCodeId,
-          useBy: useBy,
+          point: findUserPoint?.point! + 10_000,
+          expireAt: await defaultExpireAt(),
         },
       });
     }
+
+    await tx.use_Referral.create({
+      data: {
+        referralCodeId: referralCodeId,
+        useBy: useBy,
+      },
+    });
   });
 };
 
@@ -88,11 +109,18 @@ export const createUserService = async ({
   username,
   password,
   referralCode,
+  expireAt,
 }: ICreateUserServiceParams) => {
   return await prisma.$transaction(async (tx) => {
     const { id } = await tx.referall_Code.create({
       data: {
         referallCode: referralCode,
+      },
+    });
+
+    const createUserPoint = await tx.user_Point.create({
+      data: {
+        expireAt: expireAt,
       },
     });
 
@@ -103,6 +131,7 @@ export const createUserService = async ({
         username,
         password,
         referralCodeId: id,
+        pointId: createUserPoint.id,
       },
     });
   });

@@ -32,6 +32,7 @@ export const register = async (
     const hashedPassword = await HashingPassword({ password });
     const referralCodeGenerator = await referralGenerator();
     const voucherCodeGenerator = await voucherGenerator();
+    const defaultExpireAtResult = await defaultExpireAt();
 
     if (useReferral) {
       const findUserByReferralResult = await findUserByReferralService({
@@ -47,14 +48,13 @@ export const register = async (
         username,
         password: hashedPassword,
         referralCode: referralCodeGenerator,
+        expireAt: defaultExpireAtResult,
       });
 
       await addPointInRegisterService({
         referralCodeId: findUserByReferralResult.referralCodeId,
         useBy: createUserResult.uid,
       });
-
-      const defaultExpireAtResult = await defaultExpireAt();
 
       await createVoucherAfterUseReferralService({
         uid: createUserResult.uid,
@@ -68,6 +68,7 @@ export const register = async (
         username,
         password: hashedPassword,
         referralCode: referralCodeGenerator,
+        expireAt: defaultExpireAtResult,
       });
     }
 

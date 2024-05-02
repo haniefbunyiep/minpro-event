@@ -1,6 +1,7 @@
 import { HashingPassword } from './../src/helpers/Hashing';
 import { PrismaClient } from '@prisma/client';
 import { referralGenerator } from '../src/helpers/CodeGenerator';
+import { defaultExpireAt } from './../src/helpers/DefaultDateForUserVoucher';
 
 const prisma = new PrismaClient();
 
@@ -21,6 +22,12 @@ const main = async () => {
       },
     });
 
+    await tx.user_Point.create({
+      data: {
+        expireAt: await defaultExpireAt(),
+      },
+    });
+
     await tx.user.createMany({
       data: {
         name: 'admin',
@@ -29,7 +36,7 @@ const main = async () => {
         password: await HashingPassword({ password: 'admin' }),
         roleId: 1,
         referralCodeId: 1,
-        point: 0,
+        pointId: 1,
       },
     });
   });

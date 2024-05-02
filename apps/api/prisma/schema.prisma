@@ -18,8 +18,9 @@ model User {
   password       String
   roleId         Int    @default(2)
   referralCodeId Int
-  point          Int    @default(0)
+  pointId        Int
 
+  point        User_Point    @relation(fields: [pointId], references: [id])
   role         Role          @relation(fields: [roleId], references: [id])
   referralCode Referall_Code @relation(fields: [referralCodeId], references: [id])
 
@@ -34,6 +35,19 @@ model User {
   User_Voucher User_Voucher[]
 
   @@map("users")
+}
+
+model User_Point {
+  id       Int      @id @default(autoincrement())
+  point    Int      @default(0)
+  expireAt DateTime @db.Date
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  User      User[]
+
+  @@map("user_point")
 }
 
 model Referall_Code {
