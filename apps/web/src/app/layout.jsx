@@ -4,9 +4,10 @@ import './globals.css';
 import TanstackProvider from './../providers/TanstackProvider';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Navbar from './../components/Navbar';
+import Navbar from '../components/cores/Navbar';
 import { UserContext } from './../supports/context/userContext';
 import { useState } from 'react';
+import ProtectedRoute from './../components/ProtectedRoute';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,7 +21,7 @@ export default function RootLayout({ children }) {
           <TanstackProvider>
             <ToastContainer />
             <Navbar />
-            {children}
+            <ProtectedRoute>{children}</ProtectedRoute>
           </TanstackProvider>
         </body>
       </html>

@@ -4,6 +4,7 @@ export interface ICreateUserServiceParams {
   username: string;
   password: string;
   referralCode: string;
+  expireAt: string;
 }
 
 export interface IAddPointServiceParams {

@@ -1,8 +1,8 @@
 'use client';
 import { UserContext } from '@/supports/context/userContext';
 import { useContext, useEffect } from 'react';
-import { deleteCookie } from './../utils/Cookies';
-import { useKeepLogin } from './../hooks/useKeepLogin';
+import { deleteCookie } from '../../utils/Cookies';
+import { useKeepLogin } from '../../hooks/useKeepLogin';
 import { MdEvent } from 'react-icons/md';
 import Link from 'next/link';
 

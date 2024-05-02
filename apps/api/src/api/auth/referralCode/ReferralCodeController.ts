@@ -5,7 +5,7 @@ import {
   addPointService,
   findUseReferralService,
 } from './ReferralCodeService';
-import { addPointInRegisterService } from './../register/RegisterService';
+// import { addPointInRegisterService } from './../register/RegisterService';
 
 export const useReferral = async (
   req: Request,
@@ -35,10 +35,10 @@ export const useReferral = async (
 
     if (findUseReferralResult) throw new Error('Referral Code has Been Used');
 
-    await addPointInRegisterService({
-      referralCodeId: findReferralCodeResult.id,
-      useBy: header,
-    });
+    // await addPointInRegisterService({
+    //   referralCodeId: findReferralCodeResult.id,
+    //   useBy: header,
+    // });
 
     res.status(200).send({
       error: false,
