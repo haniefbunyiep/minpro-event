@@ -1,24 +1,34 @@
 import { HashingPassword } from './../src/helpers/Hashing';
 import { PrismaClient } from '@prisma/client';
+import { referralGenerator } from '../src/helpers/CodeGenerator';
 
 const prisma = new PrismaClient();
 
 const main = async () => {
   await prisma.$transaction(async (tx) => {
     await tx.role.createMany({
+      data: [
+        {
+          name: 'admin',
+        },
+        { name: 'user' },
+      ],
+    });
+
+    await tx.referall_Code.create({
       data: {
-        name: 'Admin',
+        referallCode: await referralGenerator(),
       },
     });
 
     await tx.user.createMany({
       data: {
-        name: 'user',
-        email: 'user@gmail.com',
-        username: 'user123',
-        password: await HashingPassword({ password: 'axel300815' }),
+        name: 'admin',
+        email: 'admin@admin.com',
+        username: 'admin',
+        password: await HashingPassword({ password: 'admin' }),
         roleId: 1,
-        referralCode: 'ABC123',
+        referralCodeId: 1,
         point: 0,
       },
     });
