@@ -2,10 +2,10 @@ import { Request, Response, NextFunction } from 'express';
 import {
   findReferralCodeService,
   findUserByReferralCodeIdService,
-  addPointService,
   findUseReferralService,
 } from './ReferralCodeService';
-// import { addPointInRegisterService } from './../register/RegisterService';
+import { addPointService, findUserService } from '../cores/AuthService';
+import { IReqAccessToken } from '@/helpers/Token/TokenType';
 
 export const useReferral = async (
   req: Request,
@@ -13,8 +13,11 @@ export const useReferral = async (
   next: NextFunction,
 ) => {
   try {
+    const reqToken = req as IReqAccessToken;
+    const { uid } = reqToken.payload;
     const { useReferral } = req.body;
-    const header = 'clvnu8hu00002nu3k70qzl5ny';
+
+    const findUserResult = await findUserService({ uid });
 
     const findReferralCodeResult = await findReferralCodeService({
       useReferral,
@@ -23,6 +26,9 @@ export const useReferral = async (
     if (findReferralCodeResult === null)
       throw new Error('Referral Code not Valid');
 
+    if (useReferral == findUserResult?.referralCode.referallCode)
+      throw new Error('Cannot use Own Referral Code');
+
     const findUserByReferralCodeIdResult =
       await findUserByReferralCodeIdService({ id: findReferralCodeResult.id });
 
@@ -30,15 +36,15 @@ export const useReferral = async (
 
     const findUseReferralResult = await findUseReferralService({
       referralCodeId: findUserByReferralCodeIdResult?.referralCodeId,
-      useBy: header,
+      useBy: uid,
     });
 
     if (findUseReferralResult) throw new Error('Referral Code has Been Used');
 
-    // await addPointInRegisterService({
-    //   referralCodeId: findReferralCodeResult.id,
-    //   useBy: header,
-    // });
+    await addPointService({
+      referralCodeId: findReferralCodeResult.id,
+      useBy: uid,
+    });
 
     res.status(200).send({
       error: false,

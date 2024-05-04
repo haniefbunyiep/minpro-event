@@ -11,14 +11,15 @@ datasource db {
 }
 
 model User {
-  uid            String @id @default(cuid())
+  uid            String                @id @default(cuid())
   name           String
   email          String
   username       String
   password       String
-  roleId         Int    @default(2)
+  roleId         Int                   @default(2)
   referralCodeId Int
   pointId        Int
+  userStatus     UserEmailVerification @default(UNVERIFY)
 
   point        User_Point    @relation(fields: [pointId], references: [id])
   role         Role          @relation(fields: [roleId], references: [id])
@@ -37,10 +38,16 @@ model User {
   @@map("users")
 }
 
+enum UserEmailVerification {
+  UNVERIFY
+  VERIFIED
+}
+
 model User_Point {
   id       Int      @id @default(autoincrement())
   point    Int      @default(0)
   expireAt DateTime @db.Date
+  lastAdd  DateTime @db.Date
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

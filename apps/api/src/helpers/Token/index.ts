@@ -10,6 +10,11 @@ export const createToken = ({ uid }: { uid: string }) => {
     expiresIn: '7d',
   });
 };
+export const createRegisterToken = ({ uid }: { uid: string }) => {
+  return jwt.sign({ uid }, process.env.JWT_SECRET_KEY as string, {
+    expiresIn: '1m',
+  });
+};
 
 export const tokenVerify = (
   req: Request,

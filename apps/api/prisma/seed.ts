@@ -25,6 +25,7 @@ const main = async () => {
     await tx.user_Point.create({
       data: {
         expireAt: await defaultExpireAt(),
+        lastAdd: new Date(Date.now()),
       },
     });
 
@@ -37,6 +38,7 @@ const main = async () => {
         roleId: 1,
         referralCodeId: 1,
         pointId: 1,
+        userStatus: 'VERIFIED',
       },
     });
   });

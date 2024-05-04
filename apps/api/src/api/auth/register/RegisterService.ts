@@ -1,67 +1,8 @@
 import { prisma } from '../../../lib/PrismaClient';
 import {
   ICreateUserServiceParams,
-  IAddPointServiceParams,
   ICreateVoucherAfterUseReferralParams,
 } from './RegisterInterface';
-import { defaultExpireAt } from './../../../helpers/DefaultDateForUserVoucher';
-
-export const addPointInRegisterService = async ({
-  referralCodeId,
-  useBy,
-}: IAddPointServiceParams) => {
-  const currentDate = new Date(Date.now());
-  const getMonth = currentDate.getMonth() + 1;
-
-  // console.log(getMonth);
-  await prisma.$transaction(async (tx) => {
-    const findReferralCode = await tx.referall_Code.findFirst({
-      where: {
-        id: referralCodeId,
-      },
-    });
-
-    const findUserByReferral = await tx.user.findFirst({
-      where: {
-        referralCodeId: findReferralCode?.id,
-      },
-    });
-
-    const findUserPoint = await tx.user_Point.findFirst({
-      where: {
-        id: findUserByReferral?.pointId,
-      },
-    });
-    // console.log(findUserPoint?.expireAt.getMonth()! + 1);
-    if (findUserPoint?.expireAt.getMonth()! + 1 === getMonth) {
-      await tx.user_Point.update({
-        where: {
-          id: findUserByReferral?.pointId,
-        },
-        data: {
-          point: findUserPoint?.point! + 10_000,
-        },
-      });
-    } else {
-      await tx.user_Point.update({
-        where: {
-          id: findUserByReferral?.pointId,
-        },
-        data: {
-          point: findUserPoint?.point! + 10_000,
-          expireAt: await defaultExpireAt(),
-        },
-      });
-    }
-
-    await tx.use_Referral.create({
-      data: {
-        referralCodeId: referralCodeId,
-        useBy: useBy,
-      },
-    });
-  });
-};
 
 export const findUserByReferralService = async ({
   useReferral,
@@ -121,6 +62,7 @@ export const createUserService = async ({
     const createUserPoint = await tx.user_Point.create({
       data: {
         expireAt: expireAt,
+        lastAdd: new Date(Date.now()),
       },
     });
 
@@ -147,6 +89,59 @@ export const createVoucherAfterUseReferralService = async ({
       userId: uid,
       expireAt: expireAt,
       voucherCode: voucherCode,
+    },
+  });
+};
+
+export const userVerificationService = async ({ uid }: { uid: string }) => {
+  const updateUserWhoRegister = await prisma.user.update({
+    where: {
+      uid: uid,
+    },
+    data: {
+      userStatus: 'VERIFIED',
+    },
+  });
+
+  const findUseReferralByWhoRegister = await prisma.use_Referral.findFirst({
+    where: {
+      useBy: updateUserWhoRegister.uid,
+    },
+  });
+
+  const findUserReferralCode = await prisma.user.findFirst({
+    where: {
+      referralCodeId: findUseReferralByWhoRegister?.referralCodeId,
+    },
+  });
+
+  const findUserPoint = await prisma.user_Point.findUnique({
+    where: {
+      id: findUserReferralCode?.pointId,
+    },
+  });
+
+  const addPoint = await prisma.user_Point.update({
+    where: {
+      id: findUserPoint?.id,
+    },
+    data: {
+      point: findUserPoint?.point! + 10_000,
+    },
+  });
+};
+
+export const createUseReferralByUserService = async ({
+  referralCodeId,
+  useBy,
+}: {
+  referralCodeId: number;
+  useBy: string;
+}) => {
+  await prisma.use_Referral.create({
+    data: {
+      referralCodeId: referralCodeId,
+      useBy: useBy,
     },
   });
 };

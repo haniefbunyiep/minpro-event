@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { findUserByEmailService, keepLoginService } from './LoginService';
 import { ComparePassword } from '../../../helpers/Hashing';
 import { createToken } from '@/helpers/Token';
-import { IReqAccessToken } from '@/middleware/TokenVerify';
+import { IReqAccessToken } from './../../../helpers/Token/TokenType';
 
 export const login = async (
   req: Request,
