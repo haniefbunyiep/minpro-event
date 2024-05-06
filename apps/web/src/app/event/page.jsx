@@ -2,10 +2,12 @@
 
 import { Formik, Form, Field } from 'formik';
 import { useState } from 'react';
-import { useCreateEventMutate } from '../../hook/useCreateEventMutate';
+import { useCreateEventMutate } from '../../hooks/useCreateEventMutate';
+import { useGetCategory } from '../../hooks/useGetCategory';
 
 export default function EventPage() {
   const [upload, setUpload] = useState([]);
+  const { dataCategory } = useGetCategory();
 
   const { mutateCreateEvent } = useCreateEventMutate();
 
@@ -36,20 +38,24 @@ export default function EventPage() {
       <Formik
         initialValues={{
           name: '',
-          date: '',
-          time: '',
+          startDate: '',
+          endDate: '',
+          startTime: '',
+          endTime: '',
           location: '',
           description: '',
           categoryId: '',
         }}
-        onSubmit={(values) => {
+        onSubmit={(values, { resetFrom }) => {
           const fd = new FormData();
           fd.append(
             'data',
             JSON.stringify({
               name: values.name,
-              date: values.date,
-              time: values.time,
+              startDate: values.startDate,
+              endDate: values.endDate,
+              startTime: values.startTime,
+              endTime: values.endTime,
               location: values.location,
               description: values.description,
               categoryId: parseInt(values.categoryId),
@@ -80,11 +86,11 @@ export default function EventPage() {
             <div className="w-[50vh]">
               <label className="form-control w-[50vh]">
                 <div className="label">
-                  <span className="label-text">Date Event</span>
+                  <span className="label-text">Start Date Event</span>
                 </div>
                 <Field
                   type="date"
-                  name="date"
+                  name="startDate"
                   placeholder="Type Date Event"
                   className="input input-bordered w-[50vh]"
                 />
@@ -93,11 +99,37 @@ export default function EventPage() {
             <div className="w-[50vh]">
               <label className="form-control w-[50vh]">
                 <div className="label">
-                  <span className="label-text">Time Event</span>
+                  <span className="label-text">End Date Event</span>
+                </div>
+                <Field
+                  type="date"
+                  name="endDate"
+                  placeholder="Type Date Event"
+                  className="input input-bordered w-[50vh]"
+                />
+              </label>
+            </div>
+            <div className="w-[50vh]">
+              <label className="form-control w-[50vh]">
+                <div className="label">
+                  <span className="label-text">Start Time Event</span>
                 </div>
                 <Field
                   type="time"
-                  name="time"
+                  name="startTime"
+                  placeholder="Type Date Event"
+                  className="input input-bordered w-[50vh]"
+                />
+              </label>
+            </div>
+            <div className="w-[50vh]">
+              <label className="form-control w-[50vh]">
+                <div className="label">
+                  <span className="label-text">End Time Event</span>
+                </div>
+                <Field
+                  type="time"
+                  name="endTime"
                   placeholder="Type Date Event"
                   className="input input-bordered w-[50vh]"
                 />
@@ -135,11 +167,20 @@ export default function EventPage() {
                   <span className="label-text">Category Event</span>
                 </div>
                 <Field
-                  type="text"
+                  component="select"
+                  id="categoryId"
                   name="categoryId"
-                  placeholder="Type Category Event"
-                  className="input input-bordered w-[50vh]"
-                />
+                  className="select select-bordered w-[50vh]"
+                >
+                  <option>Choose Category</option>
+                  {dataCategory?.map((position, index) => {
+                    return (
+                      <option value={position.id} key={index}>
+                        {position.name}
+                      </option>
+                    );
+                  })}
+                </Field>
               </label>
             </div>
             <div className="w-[50vh]">

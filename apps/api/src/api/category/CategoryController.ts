@@ -1,5 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { createCategoryEventServices } from './CategoryServices';
+import {
+  createCategoryEventServices,
+  findCategoryEventServices,
+} from './CategoryServices';
 
 export const createCategoryEventController = async (
   req: Request,
@@ -14,6 +17,23 @@ export const createCategoryEventController = async (
       error: false,
       meesage: 'Create Success!',
       data: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findCategoryEventController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const categoryEventResult = await findCategoryEventServices();
+    res.status(200).send({
+      error: false,
+      message: 'Find Success!',
+      data: categoryEventResult,
     });
   } catch (error) {
     next(error);

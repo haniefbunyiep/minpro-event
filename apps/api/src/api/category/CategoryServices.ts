@@ -7,3 +7,7 @@ export const createCategoryEventServices = async (name: any) => {
     },
   });
 };
+
+export const findCategoryEventServices = async () => {
+  return await prisma.category.findMany();
+};
