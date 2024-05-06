@@ -6,13 +6,16 @@ import {
   findUserByReferralService,
   userVerificationService,
   createUseReferralByUserService,
+  createVoucherAfterUseReferralService,
+  findUserService,
 } from './RegisterService';
 import { HashingPassword } from '@/helpers/Hashing';
-import { referralGenerator, voucherGenerator } from '@/helpers/CodeGenerator';
+import { referralGenerator } from '@/helpers/CodeGenerator';
 import { defaultExpireAt } from './../../../helpers/DefaultDateForUserVoucher';
 import { createRegisterToken } from './../../../helpers/Token/index';
 import { transporterNodemailer } from '@/helpers/TransporterMailer';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';
+import { voucherGenerator } from '@/helpers/CodeGenerator';
 import Handlebars from 'handlebars';
 import fs from 'fs';
 
@@ -36,7 +39,6 @@ export const register = async (
 
     const hashedPassword = await HashingPassword({ password });
     const referralCodeGenerator = await referralGenerator();
-    const voucherCodeGenerator = await voucherGenerator();
     const defaultExpireAtResult = await defaultExpireAt();
 
     if (useReferral) {
@@ -60,17 +62,6 @@ export const register = async (
         referralCodeId: findUserByReferralResult.referralCodeId,
         useBy: createUserResult.uid,
       });
-
-      // await addPointService({
-      //   referralCodeId: findUserByReferralResult.referralCodeId,
-      //   useBy: createUserResult.uid,
-      // });
-
-      // await createVoucherAfterUseReferralService({
-      //   uid: createUserResult.uid,
-      //   expireAt: defaultExpireAtResult,
-      //   voucherCode: voucherCodeGenerator,
-      // });
 
       const accesstoken = await createRegisterToken({
         uid: createUserResult.uid,
@@ -147,13 +138,34 @@ export const userVerification = async (
     const reqToken = req as IReqAccessToken;
     const { uid } = reqToken.payload;
 
-    await userVerificationService({ uid });
+    const voucherCodeResult = await voucherGenerator();
+    const defaultExpire = await defaultExpireAt();
 
-    res.send(200).send({
-      error: false,
-      message: 'Verify Success',
-      data: null,
-    });
+    const userVerficationValidator = await findUserService({ uid });
+
+    if (userVerficationValidator?.userStatus == 'VERIFIED')
+      res.status(401).send({
+        error: true,
+        message: 'User Already Verified',
+        data: null,
+      });
+    else if (userVerficationValidator?.userStatus == 'UNVERIFY') {
+      await userVerificationService({
+        uid,
+      });
+
+      await createVoucherAfterUseReferralService({
+        uid: uid,
+        expireAt: defaultExpire,
+        voucherCode: voucherCodeResult,
+      });
+
+      res.status(200).send({
+        error: false,
+        message: 'Verify Success',
+        data: null,
+      });
+    }
   } catch (error) {
     next(error);
   }

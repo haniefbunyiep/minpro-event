@@ -1,23 +1,28 @@
 'use client';
 import { useVerificationEmail } from './../../../hooks/useVerificationEmail';
 import Link from 'next/link';
-import { useEffect } from 'react';
 
 export default function Verification({ params }) {
-  // console.log(params.token);
   const token = params.token;
   const { mutationVerificationEmail } = useVerificationEmail();
 
-  useEffect(() => {
+  const handleVerify = async () => {
     mutationVerificationEmail({
       accesstoken: token,
     });
-  }, []);
+  };
 
   return (
-    <div className="flex h-screen w-screen flex-col items-center justify-center gap-2">
-      <div>Verify Success</div>
-      <Link href="/">Back to Home</Link>
+    <div className="flex h-screen w-screen flex-col items-center justify-center gap-4">
+      <div className="btn w-[300px]" onClick={handleVerify}>
+        Verify
+      </div>
+      <Link className="btn w-[300px]" href="/">
+        Back to Home
+      </Link>
+      <Link className="btn w-[300px]" href="/login">
+        Login now
+      </Link>
     </div>
   );
 }

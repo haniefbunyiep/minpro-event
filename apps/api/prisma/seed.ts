@@ -10,9 +10,10 @@ const main = async () => {
     await tx.role.createMany({
       data: [
         {
-          name: 'admin',
+          name: 'Admin',
         },
-        { name: 'user' },
+        { name: 'Event Organizer' },
+        { name: 'User' },
       ],
     });
 

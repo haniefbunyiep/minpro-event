@@ -16,7 +16,7 @@ model User {
   email          String
   username       String
   password       String
-  roleId         Int                   @default(2)
+  roleId         Int                   @default(3)
   referralCodeId Int
   pointId        Int
   userStatus     UserEmailVerification @default(UNVERIFY)
