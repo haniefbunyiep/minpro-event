@@ -1,6 +1,7 @@
 'use client';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import Footer from '@/components/Footer';
 
 import TanstackProvider from './../providers/TanstackProvider';
 import { ToastContainer } from 'react-toastify';
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
             <ToastContainer />
             <Navbar />
             <ProtectedRoute>{children}</ProtectedRoute>
+            <Footer />
           </TanstackProvider>
         </body>
       </html>
