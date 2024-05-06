@@ -4,4 +4,5 @@ export interface IEventServices {
   time: string;
   location: string;
   description: string;
+  categoryId: number;
 }

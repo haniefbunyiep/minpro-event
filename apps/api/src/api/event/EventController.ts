@@ -1,27 +1,35 @@
 import { Request, Response, NextFunction } from 'express';
 import {
   createEventServices,
-  EventServices,
   listEventServices,
+  updateEventServices,
 } from './EventServices';
+import { deletedUploadFile } from '@/helpers/DeletedFile';
 
-export const EventController = async (
+export const updateEventController = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
+  const data = JSON.parse(req.body.data);
   const { id } = req.params;
-  const { name, date, time, location, description } = req.body;
 
   try {
-    const EventResult = await EventServices(
-      { id: parseInt(id) },
-      { name, date, time, location, description },
-    );
+    if (req.files) {
+      const uploadedFiles = Array.isArray(req.files)
+        ? req.files
+        : req.files['images'];
+      const updateEventResult = await updateEventServices(
+        data,
+        uploadedFiles,
+        id,
+      );
+      deletedUploadFile({ images: updateEventResult });
+    }
     res.status(201).send({
       error: false,
       message: 'Update Success!',
-      data: EventResult,
+      data: null,
     });
   } catch (error) {
     next(error);
@@ -33,37 +41,22 @@ export const createEventController = async (
   res: Response,
   next: NextFunction,
 ) => {
-  const { name, date, time, location, description } = req.body;
-  try {
-    const createResult = await createEventServices({
-      name,
-      date,
-      time,
-      location,
-      description,
-    });
-    return res.status(201).send({
-      error: false,
-      message: 'Create Success!',
-      data: createResult,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+  const data = JSON.parse(req.body.data);
 
-export const createEventImageController = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
   try {
+    if (req.files) {
+      const uploadFile = Array.isArray(req.files)
+        ? req.files
+        : req.files['images'];
+      await createEventServices(data, uploadFile);
+    }
     return res.status(201).send({
       error: false,
       message: 'Create Success!',
       data: null,
     });
   } catch (error) {
+    deletedUploadFile(req.files);
     next(error);
   }
 };

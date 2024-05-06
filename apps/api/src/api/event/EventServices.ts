@@ -1,48 +1,74 @@
 import prisma from '@/prisma';
-import { IEventServices } from './type';
 
-export const EventServices = async (
-  { id }: { id: number },
-  { name, date, time, location, description }: IEventServices,
-) => {
+export const updateEventServices = async (data: any, images: any, id: any) => {
   return await prisma.$transaction(async (tx) => {
     const findEvent = await tx.event.findUnique({
       where: {
-        id,
+        id: Number(id),
       },
     });
     if (!findEvent) throw new Error('Event Not Found!');
 
     await tx.event.update({
       where: {
-        id: findEvent.id,
+        id: Number(id),
       },
       data: {
-        name,
-        date: new Date(date),
+        name: data.name,
+        date: new Date(data.date),
         time: new Date(),
-        location,
-        description,
+        location: data.location,
+        description: data.description,
+        categoryId: data.categoryId,
       },
     });
+
+    const findEventImages = await tx.eventImage.findMany({
+      where: {
+        eventId: findEvent.id,
+      },
+    });
+    await tx.eventImage.deleteMany({
+      where: {
+        eventId: findEvent.id,
+      },
+    });
+    const imageToUpdate: any = [];
+    images.forEach((item: any) => {
+      imageToUpdate.push({
+        url: item.path,
+        eventId: findEvent.id,
+      });
+    });
+    await tx.eventImage.createMany({
+      data: [...imageToUpdate],
+    });
+    return findEventImages;
   });
 };
 
-export const createEventServices = async ({
-  name,
-  date,
-  time,
-  location,
-  description,
-}: IEventServices) => {
-  await prisma.event.create({
-    data: {
-      name,
-      date: new Date(date),
-      time: new Date(),
-      location,
-      description,
-    },
+export const createEventServices = async (data: any, images: any) => {
+  return await prisma.$transaction(async (tx) => {
+    const createEvent = await tx.event.create({
+      data: {
+        name: data.name,
+        date: new Date(data.date),
+        time: new Date(),
+        location: data.location,
+        description: data.description,
+        categoryId: data.categoryId,
+      },
+    });
+    const imageToCreate: any = [];
+    images.forEach((item: any) => {
+      imageToCreate.push({
+        url: item.path,
+        eventId: createEvent.id,
+      });
+    });
+    await tx.eventImage.createMany({
+      data: [...imageToCreate],
+    });
   });
 };
 
