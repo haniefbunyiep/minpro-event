@@ -10,7 +10,7 @@
     "test": "npx cypress verify & cypress run --component"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.32.0",
+    "@tanstack/react-query": "^5.34.1",
     "axios": "^1.6.8",
     "date-fns": "^3.6.0",
     "formik": "^2.4.5",

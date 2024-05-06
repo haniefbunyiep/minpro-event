@@ -106,15 +106,31 @@ model Event {
   time        DateTime @db.Time()
   location    String
   description String
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Ticket  Ticket[]
-  Voucher Voucher[]
+  Ticket     Ticket[]
+  Voucher    Voucher[]
+  EventImage EventImage?
 
   @@map("events")
+}
+
+model EventImage {
+  id      Int    @id @default(autoincrement())
+  url     String
+  eventId Int    @unique
+  event   Event  @relation(fields: [eventId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("event_images")
 }
 
 model Ticket {
@@ -131,7 +147,7 @@ model Ticket {
 
   Voucher Voucher[]
 
-  @@map("tickets")
+  @@map("event_tickets")
 }
 
 model Review {
@@ -145,7 +161,7 @@ model Review {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  @@map("reviews")
+  @@map("event_reviews")
 }
 
 model Transaction {
@@ -177,7 +193,7 @@ model Promotion {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  @@map("promotions")
+  @@map("event_promotions")
 }
 
 model Voucher {
@@ -200,7 +216,7 @@ model Voucher {
 
   Promotion Promotion[]
 
-  @@map("vouchers")
+  @@map("event_vouchers")
 }
 
 model User_Voucher {
@@ -230,5 +246,11 @@ model Category {
   id   Int    @id @default(autoincrement())
   name String
 
-  @@map("categories")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Event Event[]
+
+  @@map("event_categories")
 }
