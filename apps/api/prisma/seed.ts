@@ -7,6 +7,12 @@ const prisma = new PrismaClient();
 
 const main = async () => {
   await prisma.$transaction(async (tx) => {
+    await tx.category.create({
+      data: {
+        name: 'music',
+      },
+    });
+
     await tx.role.createMany({
       data: [
         {
