@@ -11,26 +11,79 @@ datasource db {
 }
 
 model User {
-  uid          String @id @default(cuid())
-  name         String
-  email        String
-  username     String
-  password     String
-  roleId       Int
-  referralCode String
-  point        Int
+  uid            String                @id @default(cuid())
+  name           String
+  email          String
+  username       String
+  password       String
+  roleId         Int                   @default(3)
+  referralCodeId Int
+  pointId        Int
+  userStatus     UserEmailVerification @default(UNVERIFY)
 
-  role Role @relation(fields: [roleId], references: [id])
+  point        User_Point    @relation(fields: [pointId], references: [id])
+  role         Role          @relation(fields: [roleId], references: [id])
+  referralCode Referall_Code @relation(fields: [referralCodeId], references: [id])
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Review      Review[]
-  Promotion   Promotion[]
-  Transaction Transaction[]
+  Review       Review[]
+  Promotion    Promotion[]
+  Transaction  Transaction[]
+  Use_Referral Use_Referral[]
+  User_Voucher User_Voucher[]
 
   @@map("users")
+}
+
+enum UserEmailVerification {
+  UNVERIFY
+  VERIFIED
+}
+
+model User_Point {
+  id       Int      @id @default(autoincrement())
+  point    Int      @default(0)
+  expireAt DateTime @db.Date
+  lastAdd  DateTime @db.Date
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  User      User[]
+
+  @@map("user_point")
+}
+
+model Referall_Code {
+  id           Int    @id @default(autoincrement())
+  referallCode String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  User         User[]
+  Use_Referral Use_Referral[]
+
+  @@map("referral_code")
+}
+
+model Use_Referral {
+  id             Int    @id @default(autoincrement())
+  referralCodeId Int
+  useBy          String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  referralCode Referall_Code @relation(fields: [referralCodeId], references: [id])
+  user         User          @relation(fields: [useBy], references: [uid])
+
+  @@map("use_referral")
 }
 
 model Role {
@@ -164,6 +217,29 @@ model Voucher {
   Promotion Promotion[]
 
   @@map("event_vouchers")
+}
+
+model User_Voucher {
+  id                Int                 @id @default(autoincrement())
+  userId            String
+  voucherCode       String
+  discountInPercent Int                 @default(10)
+  expireAt          DateTime            @db.Date
+  status            User_Voucher_Status @default(ACTIVE)
+
+  user User @relation(fields: [userId], references: [uid])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("user_voucher")
+}
+
+enum User_Voucher_Status {
+  EXPIRED
+  ACTIVE
+  USED
 }
 
 model Category {
