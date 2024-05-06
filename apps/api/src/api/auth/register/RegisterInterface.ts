@@ -7,11 +7,6 @@ export interface ICreateUserServiceParams {
   expireAt: string;
 }
 
-export interface IAddPointServiceParams {
-  referralCodeId: number;
-  useBy: string;
-}
-
 export interface ICreateVoucherAfterUseReferralParams {
   uid: string;
   expireAt: string;

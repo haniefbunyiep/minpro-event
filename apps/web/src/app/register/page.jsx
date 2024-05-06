@@ -100,11 +100,11 @@ export default function Register() {
               className="grow"
               placeholder="Referral Code"
             />
-            <span className="badge badge-info">Optional</span>
+            <span className="badge badge-info bg-dodgerBlue">Optional</span>
           </label>
           <button
             type="submit"
-            className="rounded-m btn bg-cerulean text-white"
+            className="rounded-m btn bg-cerulean bg-azureBlue hover:bg-scienceBlue text-white"
           >
             LOG IN
           </button>

@@ -5,26 +5,29 @@ import { deleteCookie } from '../../utils/Cookies';
 import { useKeepLogin } from '../../hooks/useKeepLogin';
 import { MdEvent } from 'react-icons/md';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function Navbar() {
   const { userData, setUserData } = useContext(UserContext);
   const { mutationKeepLogin } = useKeepLogin();
+  const navigate = useRouter();
 
   const handleLogout = async () => {
     await deleteCookie();
-    setUserData({});
-    window.location.reload();
+    setUserData(null);
+    navigate.push('/');
   };
 
   useEffect(() => {
     mutationKeepLogin();
-  }, [userData]);
+  }, []);
 
   return (
     <nav>
       <div className="bg-congressBlue flex h-[73px] items-center justify-between px-[300px]">
         <div className="flex h-full w-[60%] items-center justify-start font-bold text-white">
-          Heptatix
+          <Link href={'/'}>Heptatix</Link>
         </div>
         <div className="flex h-full w-[70%] items-center justify-between text-white">
           <div>Home</div>

@@ -10,6 +10,11 @@ export default function ProtectedRoute({ children }) {
     const cookie = await getCookie();
 
     const protectedPathAfterLogin = ['/login', '/register'];
+    const protectedPathBeforeLogin = ['/use-referral'];
+
+    if (!cookie & protectedPathBeforeLogin.includes(path)) {
+      navigate.push('/');
+    }
 
     if (cookie && protectedPathAfterLogin.includes(path)) {
       navigate.push('/');

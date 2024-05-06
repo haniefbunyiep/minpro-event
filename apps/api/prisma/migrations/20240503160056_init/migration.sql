@@ -20,6 +20,7 @@ CREATE TABLE `user_point` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `point` INTEGER NOT NULL DEFAULT 0,
     `expireAt` DATE NOT NULL,
+    `lastAdd` DATE NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,

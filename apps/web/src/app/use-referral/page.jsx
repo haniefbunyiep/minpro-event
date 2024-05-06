@@ -1,18 +1,18 @@
 'use client';
 import { Formik, Form, Field } from 'formik';
-import { useRegister } from './../../hooks/useRegister';
+import { useReferralCode } from './../../hooks/useReferralCode';
 
 export default function TestUseVoucher() {
-  const { mutationRegister } = useRegister();
+  const { mutationReferralCode } = useReferralCode();
   return (
     <Formik
       initialValues={{
-        useVoucher: '',
+        useReferral: '',
       }}
       onSubmit={(values) => {
-        // console.log(new Date(Date.now()).toISOString());
-        mutationRegister({
-          useVoucher: values.useReferral,
+        console.log(values);
+        mutationReferralCode({
+          useReferral: values.useReferral,
         });
       }}
     >
@@ -21,16 +21,15 @@ export default function TestUseVoucher() {
           <h1 className="text-[50px]">Heptatix</h1>
           <label className="input input-bordered flex w-[300px] items-center gap-2">
             <Field
-              name="useVoucher"
+              name="useReferral"
               type="text"
               className="grow"
               placeholder="Input Voucher Code"
             />
-            <span className="badge badge-info">Optional</span>
           </label>
           <button
             type="submit"
-            className="rounded-m btn bg-cerulean text-white"
+            className="rounded-m btn bg-cerulean bg-azureBlue hover:bg-scienceBlue text-white"
           >
             LOG IN
           </button>

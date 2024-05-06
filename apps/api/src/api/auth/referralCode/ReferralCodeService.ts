@@ -1,5 +1,5 @@
 import { prisma } from '../../../lib/PrismaClient';
-import { IAddPointServiceParams } from './../../auth/register/RegisterInterface';
+import { IAddPointServiceParams } from '../cores/AuthInterface';
 
 export const findReferralCodeService = async ({
   useReferral,
@@ -24,8 +24,6 @@ export const findUserByReferralCodeIdService = async ({
     },
   });
 };
-
-export const addPointService = async () => {};
 
 export const findUseReferralService = async ({
   referralCodeId,

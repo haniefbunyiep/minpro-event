@@ -13,6 +13,7 @@ module.exports = {
         congressBlue: '#004997',
         azureBlue: '#027BFF',
         dodgerBlue: '#319CFF',
+        scienceBlue: '#0169D9',
         denim: '#1866BA',
       },
     },
