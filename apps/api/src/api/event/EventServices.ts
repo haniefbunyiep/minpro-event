@@ -15,8 +15,10 @@ export const updateEventServices = async (data: any, images: any, id: any) => {
       },
       data: {
         name: data.name,
-        date: new Date(data.date),
-        time: new Date(),
+        startDate: new Date(data.startDate),
+        endDate: new Date(data.endDate),
+        startTime: new Date(),
+        endTime: new Date(),
         location: data.location,
         description: data.description,
         categoryId: data.categoryId,
@@ -52,8 +54,10 @@ export const createEventServices = async (data: any, images: any) => {
     const createEvent = await tx.event.create({
       data: {
         name: data.name,
-        date: new Date(data.date),
-        time: new Date(),
+        startDate: new Date(data.startDate),
+        endDate: new Date(data.endDate),
+        startTime: new Date(),
+        endTime: new Date(),
         location: data.location,
         description: data.description,
         categoryId: data.categoryId,

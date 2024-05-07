@@ -15,6 +15,7 @@
   "dependencies": {
     "@prisma/client": "^5.7.1",
     "@types/bcrypt": "^5.0.2",
+    "@types/handlebars": "^4.1.0",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/nodemailer": "^6.4.15",
     "bcrypt": "^5.1.1",
