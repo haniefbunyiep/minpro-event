@@ -31,7 +31,7 @@ export default function TestUseVoucher() {
             type="submit"
             className="rounded-m btn bg-cerulean bg-azureBlue hover:bg-scienceBlue text-white"
           >
-            LOG IN
+            Use Referral Code
           </button>
         </div>
       </Form>
