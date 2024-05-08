@@ -8,6 +8,15 @@ module.exports = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    extend: {
+      colors: {
+        congressBlue: '#004997',
+        azureBlue: '#027BFF',
+        dodgerBlue: '#319CFF',
+        scienceBlue: '#0169D9',
+        denim: '#1866BA',
+      },
+    },
     screens: {
       mobile: { max: '639px' },
       sm: '640px',
