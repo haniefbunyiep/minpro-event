@@ -59,3 +59,7 @@ export const updateTicketEventServices = async (
     }
   });
 };
+
+export const findTicketEventServices = async () => {
+  return await prisma.ticket.findMany();
+};
