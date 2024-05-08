@@ -1,12 +1,14 @@
-import { useCreateTicketEventMutation } from '../api/useCreateTicketEvent';
+'use client';
+import { useCreateTicketEventMutation } from '../api/useCreateTicketEventMutation';
+import { toast } from 'react-toastify';
 
-export const useCreateTicketEventMutate = async () => {
+export const useCreateTicketEventMutate = () => {
   const { mutate: mutateCreateTicketEvent } = useCreateTicketEventMutation({
     onSuccess: (res) => {
-      console.log(res);
+      toast.success(res.data.message);
     },
     onError: (err) => {
-      console.log(err);
+      toast.error(err.response.data.message);
     },
   });
   return {

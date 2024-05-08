@@ -18,15 +18,15 @@ export default function Ticket() {
           console.log(values);
           mutateCreateTicketEvent({
             name: values.name,
-            price: values.price,
-            quantity: values.quantity,
+            price: parseInt(values.price),
+            quantity: parseInt(values.quantity),
             eventId: parseInt(values.eventId),
           });
         }}
       >
         <Form>
           <div className="flex flex-col items-center gap-3 px-5 py-10">
-            <h1>TICKET EVENT</h1>
+            <h1 className="font-serif text-2xl font-bold">TICKET EVENT</h1>
             <div className="w-[50vh]">
               <label className="form-control w-[50vh]">
                 <div className="label">
