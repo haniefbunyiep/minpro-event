@@ -12,3 +12,9 @@ export interface ICreateVoucherAfterUseReferralParams {
   expireAt: string;
   voucherCode: string;
 }
+export interface ICreateEOParams {
+  name: string;
+  // phoneNumber?: string;
+  email: string;
+  password: string;
+}

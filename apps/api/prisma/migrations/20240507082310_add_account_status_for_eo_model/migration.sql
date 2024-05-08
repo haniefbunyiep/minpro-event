@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `event_organizers` ADD COLUMN `status` ENUM('VERIFIED', 'UNVERIFY') NOT NULL DEFAULT 'UNVERIFY';

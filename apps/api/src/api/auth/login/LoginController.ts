@@ -1,7 +1,14 @@
 import { Request, Response, NextFunction } from 'express';
-import { findUserByEmailService, keepLoginService } from './LoginService';
+import {
+  findUserByEmailService,
+  keepLoginService,
+  findEOService,
+  keepLoginEOService,
+  findUserById,
+  findEOById,
+} from './LoginService';
 import { ComparePassword } from '../../../helpers/Hashing';
-import { createToken } from '@/helpers/Token';
+import { createUserToken, createEOToken } from '@/helpers/Token';
 import { IReqAccessToken } from './../../../helpers/Token/TokenType';
 
 export const login = async (
@@ -23,15 +30,48 @@ export const login = async (
 
     if (!comparePasswordResult) throw new Error('Password Wrong');
 
-    const accestoken = await createToken({ uid: findUserByEmailResult.uid });
-
-    console.log(accestoken);
+    const accesstoken = await createUserToken({
+      uid: findUserByEmailResult.uid,
+    });
 
     res.status(200).send({
       error: false,
       message: 'Login Success',
       data: {
-        accestoken,
+        accesstoken,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const eoLogin = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { email, password } = req.body;
+
+    const findEOResult = await findEOService({ email });
+
+    if (!findEOResult) throw new Error('EO Not Found');
+
+    const comparePasswordResult = await ComparePassword({
+      passwordFromClient: password,
+      passwordFromDatabase: findEOResult.password,
+    });
+
+    if (!comparePasswordResult) throw new Error('Password Wrong');
+
+    const accesstoken = await createEOToken({ uid: findEOResult.uid });
+
+    res.status(201).send({
+      error: false,
+      message: 'Login Success',
+      data: {
+        accesstoken,
       },
     });
   } catch (error) {
@@ -47,16 +87,33 @@ export const keepLogin = async (
   try {
     const reqToken = req as IReqAccessToken;
     const { uid } = reqToken.payload;
+    console.log(uid);
 
-    const keepLoginResult = await keepLoginService({ uid });
+    const findEOByIdResult = await findEOById({ uid });
+    const findUserByIdResult = await findUserById({ uid });
 
-    if (!keepLoginResult) throw new Error('Keep Login Failed');
+    console.log(findUserByIdResult);
+    console.log(findEOByIdResult);
 
-    res.status(201).send({
-      error: false,
-      message: 'Keep Login Success',
-      data: { session: keepLoginResult.uid, name: keepLoginResult.name },
-    });
+    if (findEOByIdResult) {
+      return res.status(201).send({
+        error: false,
+        message: 'Keep Login Success',
+        data: {
+          session: findEOByIdResult.uid,
+          name: findEOByIdResult.name,
+        },
+      });
+    } else if (findUserByIdResult) {
+      return res.status(201).send({
+        error: false,
+        message: 'Keep Login Success',
+        data: {
+          session: findUserByIdResult.uid,
+          name: findUserByIdResult.name,
+        },
+      });
+    }
   } catch (error) {
     next(error);
   }

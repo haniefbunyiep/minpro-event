@@ -5,14 +5,21 @@ import { IReqAccessToken } from './TokenType';
 
 dotenv.config();
 
-export const createToken = ({ uid }: { uid: string }) => {
+export const createUserToken = ({ uid }: { uid: string }) => {
   return jwt.sign({ uid }, process.env.JWT_SECRET_KEY as string, {
     expiresIn: '7d',
   });
 };
+
 export const createRegisterToken = ({ uid }: { uid: string }) => {
   return jwt.sign({ uid }, process.env.JWT_SECRET_KEY as string, {
     expiresIn: '1m',
+  });
+};
+
+export const createEOToken = ({ uid }: { uid: string }) => {
+  return jwt.sign({ uid }, process.env.JWT_SECRET_KEY as string, {
+    expiresIn: '1d',
   });
 };
 
