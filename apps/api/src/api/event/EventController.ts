@@ -3,6 +3,7 @@ import {
   createEventServices,
   listEventServices,
   updateEventServices,
+  findEventServices,
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 
@@ -73,6 +74,23 @@ export const listEventController = async (
       error: false,
       message: 'List Event Success!',
       data: listEventResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findEventController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const findEventResult = await findEventServices();
+    res.status(200).send({
+      error: false,
+      message: 'Find Success',
+      data: findEventResult,
     });
   } catch (error) {
     next(error);
