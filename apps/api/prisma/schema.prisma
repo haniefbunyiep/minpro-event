@@ -104,9 +104,9 @@ model Event {
   name        String
   startDate   DateTime @db.Date
   endDate     DateTime @db.Date
-  startTime   DateTime @db.Time()
-  endTime     DateTime @db.Time()
-  location    String
+  time        DateTime @db.Time()
+  locationId  Int
+  location    Location @relation(fields: [locationId], references: [id])
   description String
   categoryId  Int
   category    Category @relation(fields: [categoryId], references: [id])
@@ -133,6 +133,21 @@ model EventImage {
   deletedAt DateTime?
 
   @@map("event_images")
+}
+
+model Location {
+  id      Int    @id @default(autoincrement())
+  address String
+  city    String
+  zip     String
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  Event Event[]
+
+  @@map("event_location")
 }
 
 model Ticket {

@@ -20,6 +20,62 @@ const main = async () => {
         },
       ],
     });
+    await tx.location.createMany({
+      data: [
+        {
+          address: 'Jl. Jendral Sudirman',
+          city: 'Jakarta Pusat',
+          zip: '887211',
+        },
+        {
+          address: 'Jl. Raya Joglo',
+          city: 'Jakarta Barat',
+          zip: '887921',
+        },
+        {
+          address: 'Bintaro XChange',
+          city: 'Tangerang Selatan',
+          zip: '889998',
+        },
+        {
+          address: 'Gandaria City',
+          city: 'Jakarta Selatan',
+          zip: '887821',
+        },
+      ],
+    });
+
+    await tx.event.createMany({
+      data: [
+        {
+          name: 'Festival Music',
+          startDate: '2024-07-01T00:00:00.000Z',
+          endDate: '2024-07-02T00:00:00.000Z',
+          time: '2024-07-01T17:00:00.000Z',
+          locationId: 1,
+          description: 'Festival Music 2024',
+          categoryId: 1,
+        },
+        {
+          name: 'Music Indie',
+          startDate: '2024-07-01T00:00:00.000Z',
+          endDate: '2024-07-02T00:00:00.000Z',
+          time: '2024-07-01T17:00:00.000Z',
+          locationId: 2,
+          description: 'Festival Music 2024',
+          categoryId: 2,
+        },
+        {
+          name: 'Festival Music',
+          startDate: '2024-07-01T00:00:00.000Z',
+          endDate: '2024-07-02T00:00:00.000Z',
+          time: '2024-07-01T17:00:00.000Z',
+          locationId: 3,
+          description: 'Festival Music 2024',
+          categoryId: 1,
+        },
+      ],
+    });
 
     await tx.role.createMany({
       data: [
