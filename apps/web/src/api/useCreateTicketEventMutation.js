@@ -4,7 +4,6 @@ import axios from 'axios';
 export const useCreateTicketEventMutation = ({ onSuccess, onError }) => {
   const { mutate } = useMutation({
     mutationFn: async ({ name, price, quantity, eventId }) => {
-      console.log('Mutation Triger');
       return await axios.post('http://localhost:8000/ticket/register', {
         name,
         price,
