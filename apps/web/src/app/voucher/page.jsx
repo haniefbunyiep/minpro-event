@@ -3,10 +3,15 @@
 import { Formik, Form, Field } from 'formik';
 import { useCreateVoucherEventMutate } from '../../hooks/useCreateVoucherEventMutate';
 import { useGetEvent } from '../../hooks/useGetEvent';
+import { useGetCategory } from '../../hooks/useGetCategory';
+import { useState } from 'react';
 
 export default function Voucher() {
+  const [selectedTicket, setSelectedTicket] = useState(null);
   const { mutateCreateVoucherEvent } = useCreateVoucherEventMutate();
   const { data } = useGetEvent();
+  const { dataTicket } = useGetCategory();
+
   return (
     <div>
       <Formik
@@ -16,6 +21,7 @@ export default function Voucher() {
           stok: '',
           eventId: '',
           ticketId: '',
+          discountVoucher: '',
         }}
         onSubmit={(values) => {
           mutateCreateVoucherEvent({
@@ -24,6 +30,7 @@ export default function Voucher() {
             stok: parseInt(values.stok),
             eventId: parseInt(values.eventId),
             ticketId: parseInt(values.ticketId),
+            discountVoucher: parseInt(values.discountVoucher),
           });
         }}
       >
@@ -50,7 +57,20 @@ export default function Voucher() {
                 </div>
                 <Field
                   type="text"
-                  name="price"
+                  name="code"
+                  placeholder="Type Code Voucher"
+                  className="input input-bordered w-[50vh]"
+                />
+              </label>
+            </div>
+            <div className="w-[50vh]">
+              <label className="form-control w-[50vh]">
+                <div className="label">
+                  <span className="label-text">Discount Voucher</span>
+                </div>
+                <Field
+                  type="text"
+                  name="code"
                   placeholder="Type Code Voucher"
                   className="input input-bordered w-[50vh]"
                 />
@@ -80,7 +100,7 @@ export default function Voucher() {
                   name="eventId"
                   className="select select-bordered w-[50vh]"
                 >
-                  <option disabled>Choose Location</option>
+                  <option disabled>Choose Event</option>
                   {data?.data?.data.map((event, index) => {
                     return (
                       <option value={event.id} key={index}>
@@ -94,19 +114,19 @@ export default function Voucher() {
             <div className="w-[50vh]">
               <label className="form-control w-[50vh]">
                 <div className="label">
-                  <span className="label-text">Select Event</span>
+                  <span className="label-text">Select Ticket</span>
                 </div>
                 <Field
                   component="select"
-                  id="eventId"
-                  name="eventId"
+                  id="ticketId"
+                  name="ticketId"
                   className="select select-bordered w-[50vh]"
                 >
-                  <option disabled>Choose Location</option>
-                  {data?.data?.data.map((event, index) => {
+                  <option disabled>Choose Ticket</option>
+                  {dataTicket?.map((ticket, index) => {
                     return (
-                      <option value={event.id} key={index}>
-                        {event.name}
+                      <option value={ticket.id} key={index}>
+                        {ticket.name}
                       </option>
                     );
                   })}
