@@ -19,3 +19,34 @@ export const keepLoginService = async ({ uid }: { uid: string }) => {
     },
   });
 };
+
+export const keepLoginEOService = async ({ uid }: { uid: string }) => {
+  return await prisma.event_Organizer.findUnique({
+    where: {
+      uid: uid,
+    },
+  });
+};
+
+export const findEOService = async ({ email }: { email: string }) => {
+  return await prisma.event_Organizer.findFirst({
+    where: {
+      email: email,
+    },
+  });
+};
+
+export const findUserById = async ({ uid }: { uid: string }) => {
+  return await prisma.user.findUnique({
+    where: {
+      uid: uid,
+    },
+  });
+};
+export const findEOById = async ({ uid }: { uid: string }) => {
+  return await prisma.event_Organizer.findUnique({
+    where: {
+      uid: uid,
+    },
+  });
+};

@@ -8,6 +8,7 @@ import {
   createUseReferralByUserService,
   createVoucherAfterUseReferralService,
   findUserService,
+  createEOService,
 } from './RegisterService';
 import { HashingPassword } from '@/helpers/Hashing';
 import { referralGenerator } from '@/helpers/CodeGenerator';
@@ -76,7 +77,7 @@ export const register = async (
         await Handlebars.compile(verificationHTML);
       verificationHTMLCompiler = verificationHTMLCompiler({
         username: email,
-        link: `http://localhost:3000/verification/${accesstoken}`,
+        link: `http://localhost:3000/verification/user/${accesstoken}`,
       });
 
       transporterNodemailer.sendMail({
@@ -108,7 +109,7 @@ export const register = async (
         await Handlebars.compile(verificationHTML);
       verificationHTMLCompiler = verificationHTMLCompiler({
         username: email,
-        link: `http://localhost:3000/verification/${accesstoken}`,
+        link: `http://localhost:3000/verification/user/${accesstoken}`,
       });
 
       transporterNodemailer.sendMail({
@@ -166,6 +167,47 @@ export const userVerification = async (
         data: null,
       });
     }
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const eoRegister = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const createEOResult = await createEOService({ name, email, password });
+
+    const accesstoken = await createRegisterToken({ uid: createEOResult.uid });
+
+    const verificationHTML = fs.readFileSync(
+      'src/template/EmailVerification.html',
+      'utf-8',
+    );
+
+    let verificationHTMLCompiler: any =
+      await Handlebars.compile(verificationHTML);
+    verificationHTMLCompiler = verificationHTMLCompiler({
+      username: email,
+      link: `http://localhost:3000/verification/${accesstoken}`,
+    });
+
+    transporterNodemailer.sendMail({
+      from: 'hr-app-pwdk',
+      to: email,
+      subject: 'Activate Your EO Account',
+      html: verificationHTMLCompiler,
+    });
+
+    res.status(201).send({
+      error: false,
+      message: 'Register Success',
+      data: null,
+    });
   } catch (error) {
     next(error);
   }
