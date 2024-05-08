@@ -1,14 +1,16 @@
 import { Request, Response, NextFunction } from 'express';
 import {
   findUserByEmailService,
-  keepLoginService,
   findEOService,
-  keepLoginEOService,
   findUserById,
   findEOById,
 } from './LoginService';
 import { ComparePassword } from '../../../helpers/Hashing';
-import { createUserToken, createEOToken } from '@/helpers/Token';
+import {
+  createUserToken,
+  createEOToken,
+  createRoleToken,
+} from '@/helpers/Token';
 import { IReqAccessToken } from './../../../helpers/Token/TokenType';
 
 export const login = async (
@@ -38,7 +40,9 @@ export const login = async (
       error: false,
       message: 'Login Success',
       data: {
-        accesstoken,
+        accesstoken: accesstoken,
+        name: findUserByEmailResult.name,
+        role: findUserByEmailResult.roleId,
       },
     });
   } catch (error) {
@@ -71,7 +75,9 @@ export const eoLogin = async (
       error: false,
       message: 'Login Success',
       data: {
-        accesstoken,
+        accesstoken: accesstoken,
+        name: findEOResult.name,
+        role: findEOResult.roleId,
       },
     });
   } catch (error) {
@@ -96,21 +102,27 @@ export const keepLogin = async (
     console.log(findEOByIdResult);
 
     if (findEOByIdResult) {
+      const accesstoken = await createUserToken({ uid: findEOByIdResult.uid });
       return res.status(201).send({
         error: false,
         message: 'Keep Login Success',
         data: {
-          session: findEOByIdResult.uid,
+          session: accesstoken,
           name: findEOByIdResult.name,
+          role: findEOByIdResult.roleId,
         },
       });
     } else if (findUserByIdResult) {
+      const accesstoken = await createUserToken({
+        uid: findUserByIdResult.uid,
+      });
       return res.status(201).send({
         error: false,
         message: 'Keep Login Success',
         data: {
-          session: findUserByIdResult.uid,
+          session: accesstoken,
           name: findUserByIdResult.name,
+          role: findUserByIdResult.roleId,
         },
       });
     }

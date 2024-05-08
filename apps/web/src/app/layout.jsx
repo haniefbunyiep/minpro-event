@@ -1,7 +1,7 @@
 'use client';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import Footer from '@/components/Footer';
+import Footer from '@/components/cores/Footer';
 
 import TanstackProvider from './../providers/TanstackProvider';
 import { ToastContainer } from 'react-toastify';

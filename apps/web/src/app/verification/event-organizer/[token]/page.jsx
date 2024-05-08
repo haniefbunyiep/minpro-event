@@ -1,13 +1,13 @@
 'use client';
-import { useVerificationEmail } from './../../../hooks/useVerificationEmail';
+import { useEOVerificationEmail } from '../../../../hooks/useEOVerificationEmail';
 import Link from 'next/link';
 
 export default function Verification({ params }) {
   const token = params.token;
-  const { mutationVerificationEmail } = useVerificationEmail();
+  const { mutationEOVerificationEmail } = useEOVerificationEmail();
 
   const handleVerify = async () => {
-    mutationVerificationEmail({
+    mutationEOVerificationEmail({
       accesstoken: token,
     });
   };
@@ -20,7 +20,7 @@ export default function Verification({ params }) {
       <Link className="btn w-[300px]" href="/">
         Back to Home
       </Link>
-      <Link className="btn w-[300px]" href="/login">
+      <Link className="btn w-[300px]" href="/login/event-organizer">
         Login now
       </Link>
     </div>

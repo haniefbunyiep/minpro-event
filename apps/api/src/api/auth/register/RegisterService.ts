@@ -193,6 +193,14 @@ export const findUserService = async ({ uid }: { uid: string }) => {
   });
 };
 
+export const findEOByIdService = async ({ uid }: { uid: string }) => {
+  return await prisma.event_Organizer.findUnique({
+    where: {
+      uid: uid,
+    },
+  });
+};
+
 export const createEOService = async ({
   name,
   email,
@@ -203,6 +211,25 @@ export const createEOService = async ({
       name: name,
       email: email,
       password: password,
+    },
+  });
+};
+
+export const findEOByemailService = async ({ email }: { email: string }) => {
+  return await prisma.event_Organizer.findFirst({
+    where: {
+      email: email,
+    },
+  });
+};
+
+export const userEOVerificationService = async ({ uid }: { uid: string }) => {
+  await prisma.event_Organizer.update({
+    where: {
+      uid: uid,
+    },
+    data: {
+      status: 'VERIFIED',
     },
   });
 };

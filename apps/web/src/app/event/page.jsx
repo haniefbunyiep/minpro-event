@@ -182,6 +182,12 @@ export default function EventPage() {
                 />
               </label>
             </div>
+            <div className="bottom-[101px] flex flex-col items-center justify-center pl-[590px]">
+              <h1 className="py-1 text-center text-sm font-bold">
+                Have Another Location?
+              </h1>
+              <ModalCreateLocation />
+            </div>
             <div className="w-[100vh]">
               <label className="form-control w-[100vh]">
                 <div className="label">
@@ -203,12 +209,6 @@ export default function EventPage() {
           </div>
         </Form>
       </Formik>
-      <div className="absolute bottom-[101px] flex flex-col items-center justify-center pl-[590px]">
-        <h1 className="py-1 text-center text-sm font-bold">
-          Have Another Location?
-        </h1>
-        <ModalCreateLocation />
-      </div>
     </div>
   );
 }
