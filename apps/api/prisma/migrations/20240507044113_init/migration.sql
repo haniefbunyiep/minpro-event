@@ -30,6 +30,21 @@ CREATE TABLE `user_point` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
+CREATE TABLE `event_organizers` (
+    `uid` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `phoneNumber` VARCHAR(191) NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `roleId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
+    `deletedAt` DATETIME(3) NULL,
+
+    PRIMARY KEY (`uid`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
 CREATE TABLE `referral_code` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `referallCode` VARCHAR(191) NOT NULL,
@@ -67,8 +82,10 @@ CREATE TABLE `roles` (
 CREATE TABLE `events` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(191) NOT NULL,
-    `date` DATE NOT NULL,
-    `time` TIME NOT NULL,
+    `startDate` DATE NOT NULL,
+    `endDate` DATE NOT NULL,
+    `startTime` TIME NOT NULL,
+    `endTime` TIME NOT NULL,
     `location` VARCHAR(191) NOT NULL,
     `description` VARCHAR(191) NOT NULL,
     `categoryId` INTEGER NOT NULL,
@@ -201,6 +218,9 @@ ALTER TABLE `users` ADD CONSTRAINT `users_roleId_fkey` FOREIGN KEY (`roleId`) RE
 
 -- AddForeignKey
 ALTER TABLE `users` ADD CONSTRAINT `users_referralCodeId_fkey` FOREIGN KEY (`referralCodeId`) REFERENCES `referral_code`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `event_organizers` ADD CONSTRAINT `event_organizers_roleId_fkey` FOREIGN KEY (`roleId`) REFERENCES `roles`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `use_referral` ADD CONSTRAINT `use_referral_referralCodeId_fkey` FOREIGN KEY (`referralCodeId`) REFERENCES `referral_code`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

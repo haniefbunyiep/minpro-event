@@ -9,9 +9,12 @@ export const useKeepLogin = () => {
 
   const { mutate: mutationKeepLogin } = useKeepLoginMutation({
     onSuccess: (res) => {
-      setUserData({ session: res.data.data.session, name: res.data.data.name });
+      setUserData({
+        session: res.data.data.session,
+        name: res.data.data.name,
+      });
       // console.log(userName);
-      // console.log(res);
+      console.log(res);
     },
     onError: (err) => {
       // console.log(err.response.data.message);

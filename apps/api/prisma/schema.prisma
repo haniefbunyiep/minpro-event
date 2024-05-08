@@ -52,9 +52,33 @@ model User_Point {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
-  User      User[]
+
+  User User[]
 
   @@map("user_point")
+}
+
+model Event_Organizer {
+  uid         String              @id @default(cuid())
+  name        String
+  phoneNumber String?
+  email       String
+  password    String
+  roleId      Int                 @default(2)
+  status      EOEmailVerification @default(UNVERIFY)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@map("event_organizers")
+}
+
+enum EOEmailVerification {
+  VERIFIED
+  UNVERIFY
 }
 
 model Referall_Code {
@@ -94,7 +118,8 @@ model Role {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  User User[]
+  User            User[]
+  Event_Organizer Event_Organizer[]
 
   @@map("roles")
 }

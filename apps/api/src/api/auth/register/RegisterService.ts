@@ -2,6 +2,7 @@ import { prisma } from '../../../lib/PrismaClient';
 import {
   ICreateUserServiceParams,
   ICreateVoucherAfterUseReferralParams,
+  ICreateEOParams,
 } from './RegisterInterface';
 import { defaultExpireAt } from '@/helpers/DefaultDateForUserVoucher';
 
@@ -188,6 +189,20 @@ export const findUserService = async ({ uid }: { uid: string }) => {
   return await prisma.user.findUnique({
     where: {
       uid: uid,
+    },
+  });
+};
+
+export const createEOService = async ({
+  name,
+  email,
+  password,
+}: ICreateEOParams) => {
+  return await prisma.event_Organizer.create({
+    data: {
+      name: name,
+      email: email,
+      password: password,
     },
   });
 };
