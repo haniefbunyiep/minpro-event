@@ -4,10 +4,11 @@ import { Formik, Form, Field } from 'formik';
 import { useState } from 'react';
 import { useCreateEventMutate } from '../../hooks/useCreateEventMutate';
 import { useGetCategory } from '../../hooks/useGetCategory';
+import { ModalCreateLocation } from '../../components/modalCreateLocation';
 
 export default function EventPage() {
   const [upload, setUpload] = useState([]);
-  const { dataCategory } = useGetCategory();
+  const { dataCategory, dataLocation } = useGetCategory();
 
   const { mutateCreateEvent } = useCreateEventMutate();
 
@@ -40,13 +41,12 @@ export default function EventPage() {
           name: '',
           startDate: '',
           endDate: '',
-          startTime: '',
-          endTime: '',
-          location: '',
+          time: '',
+          locationId: '',
           description: '',
           categoryId: '',
         }}
-        onSubmit={(values, { resetFrom }) => {
+        onSubmit={(values) => {
           const fd = new FormData();
           fd.append(
             'data',
@@ -54,9 +54,8 @@ export default function EventPage() {
               name: values.name,
               startDate: values.startDate,
               endDate: values.endDate,
-              startTime: values.startTime,
-              endTime: values.endTime,
-              location: values.location,
+              time: values.time,
+              locationId: parseInt(values.locationId),
               description: values.description,
               categoryId: parseInt(values.categoryId),
             }),
@@ -68,10 +67,10 @@ export default function EventPage() {
         }}
       >
         <Form>
-          <div className="flex flex-col items-center gap-3 px-5 py-10">
-            <h1>REGISTER EVENT</h1>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
+          <div className="flex flex-col items-center gap-3 px-5 py-5">
+            <h1 className="font-serif text-2xl font-bold">REGISTER EVENT</h1>
+            <div className="w-[100vh]">
+              <label className="form-control w-[100vh]">
                 <div className="label">
                   <span className="label-text">Name</span>
                 </div>
@@ -79,90 +78,76 @@ export default function EventPage() {
                   type="text"
                   name="name"
                   placeholder="Type Event Name"
-                  className="input input-bordered w-[50vh]"
+                  className="input input-bordered w-[100vh]"
                 />
               </label>
             </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
-                <div className="label">
-                  <span className="label-text">Start Date Event</span>
-                </div>
-                <Field
-                  type="date"
-                  name="startDate"
-                  placeholder="Type Date Event"
-                  className="input input-bordered w-[50vh]"
-                />
-              </label>
+            <div className="flex flex-row gap-2">
+              <div className="w-[50vh]">
+                <label className="form-control w-[50vh]">
+                  <div className="label">
+                    <span className="label-text">Start Date Event</span>
+                  </div>
+                  <Field
+                    type="date"
+                    name="startDate"
+                    placeholder="Type Date Event"
+                    className="input input-bordered w-[50vh]"
+                  />
+                </label>
+              </div>
+              <div className="w-[50vh]">
+                <label className="form-control w-[50vh]">
+                  <div className="label">
+                    <span className="label-text">End Date Event</span>
+                  </div>
+                  <Field
+                    type="date"
+                    name="endDate"
+                    placeholder="Type Date Event"
+                    className="input input-bordered w-[50vh]"
+                  />
+                </label>
+              </div>
             </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
-                <div className="label">
-                  <span className="label-text">End Date Event</span>
-                </div>
-                <Field
-                  type="date"
-                  name="endDate"
-                  placeholder="Type Date Event"
-                  className="input input-bordered w-[50vh]"
-                />
-              </label>
-            </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
+            <div className="w-[100vh]">
+              <label className="form-control w-[100vh]">
                 <div className="label">
                   <span className="label-text">Start Time Event</span>
                 </div>
                 <Field
                   type="time"
-                  name="startTime"
+                  name="time"
                   placeholder="Type Date Event"
-                  className="input input-bordered w-[50vh]"
+                  className="input input-bordered w-[100vh]"
                 />
               </label>
             </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
-                <div className="label">
-                  <span className="label-text">End Time Event</span>
-                </div>
-                <Field
-                  type="time"
-                  name="endTime"
-                  placeholder="Type Date Event"
-                  className="input input-bordered w-[50vh]"
-                />
-              </label>
-            </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
+
+            <div className="w-[100vh]">
+              <label className="form-control w-[100vh]">
                 <div className="label">
                   <span className="label-text">Location Event</span>
                 </div>
                 <Field
-                  type="text"
-                  name="location"
-                  placeholder="Type Date Event"
-                  className="input input-bordered w-[50vh]"
-                />
+                  component="select"
+                  id="locationId"
+                  name="locationId"
+                  className="select select-bordered w-[100vh]"
+                >
+                  <option disabled>Choose Location</option>
+                  {dataLocation?.map((location, index) => {
+                    return (
+                      <option value={location.id} key={index}>
+                        {location.address} - {location.city}, {location.zip}
+                      </option>
+                    );
+                  })}
+                </Field>
               </label>
             </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
-                <div className="label">
-                  <span className="label-text">Description Event</span>
-                </div>
-                <Field
-                  type="text"
-                  name="description"
-                  placeholder="Type Description Event"
-                  className="input input-bordered w-[50vh]"
-                />
-              </label>
-            </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
+            <div className="w-[100vh] pt-[75px]">
+              <label className="form-control w-[100vh]">
                 <div className="label">
                   <span className="label-text">Category Event</span>
                 </div>
@@ -170,21 +155,35 @@ export default function EventPage() {
                   component="select"
                   id="categoryId"
                   name="categoryId"
-                  className="select select-bordered w-[50vh]"
+                  className="select select-bordered w-[100vh]"
                 >
-                  <option>Choose Category</option>
-                  {dataCategory?.map((position, index) => {
+                  <option disabled>Choose Category</option>
+                  {dataCategory?.map((category, index) => {
                     return (
-                      <option value={position.id} key={index}>
-                        {position.name}
+                      <option value={category.id} key={index}>
+                        {category.name}
                       </option>
                     );
                   })}
                 </Field>
               </label>
             </div>
-            <div className="w-[50vh]">
-              <label className="form-control w-[50vh]">
+            <div className="w-[100vh]">
+              <label className="form-control w-[100vh]">
+                <div className="label">
+                  <span className="label-text">Description Event</span>
+                </div>
+                <Field
+                  as="textarea"
+                  type="text"
+                  name="description"
+                  placeholder="Type Description Event"
+                  className="input input-bordered h-[20vh] w-[100vh]"
+                />
+              </label>
+            </div>
+            <div className="w-[100vh]">
+              <label className="form-control w-[100vh]">
                 <div className="label">
                   <span className="label-text">Select Images Event</span>
                 </div>
@@ -194,16 +193,22 @@ export default function EventPage() {
                   onChange={(event) => onSetFile(event)}
                   multiple
                   placeholder="Upload Image Event"
-                  className="input input-bordered w-[50vh] rounded-md px-2 py-2"
+                  className="input input-bordered w-[100vh] rounded-md px-2 py-2"
                 />
               </label>
             </div>
-            <button className="btn w-[50vh] bg-indigo-500 text-white">
+            <button className="btn bg-congressBlue w-[100vh] text-white">
               Submit
             </button>
           </div>
         </Form>
       </Formik>
+      <div className="absolute bottom-[101px] flex flex-col items-center justify-center pl-[590px]">
+        <h1 className="py-1 text-center text-sm font-bold">
+          Have Another Location?
+        </h1>
+        <ModalCreateLocation />
+      </div>
     </div>
   );
 }
