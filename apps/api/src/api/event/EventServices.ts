@@ -87,5 +87,18 @@ export const listEventServices = async ({ page, per_page }: any) => {
 };
 
 export const findEventServices = async () => {
-  return await prisma.event.findMany();
+  return await prisma.event.findMany({
+    include: {
+      location: true,
+      category: true,
+    },
+  });
+};
+
+export const findImagesEventServices = async () => {
+  return await prisma.eventImage.findMany({
+    include: {
+      event: true,
+    },
+  });
 };

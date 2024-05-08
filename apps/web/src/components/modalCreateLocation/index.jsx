@@ -75,13 +75,6 @@ export const ModalCreateLocation = () => {
                   Submit
                 </button>
               </div>
-              <div className="pt-3">
-                <form method="dialog">
-                  <button className="btn bg-congressBlue w-[20vh] text-white">
-                    Close
-                  </button>
-                </form>
-              </div>
             </div>
           </dialog>
         </Form>
