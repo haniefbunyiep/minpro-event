@@ -3,6 +3,8 @@ import {
   createEventServices,
   listEventServices,
   updateEventServices,
+  findEventServices,
+  findImagesEventServices,
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 
@@ -73,6 +75,40 @@ export const listEventController = async (
       error: false,
       message: 'List Event Success!',
       data: listEventResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findEventController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const findEventResult = await findEventServices();
+    res.status(200).send({
+      error: false,
+      message: 'Find Success',
+      data: findEventResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findImagesEventController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const findImagesEventResult = await findImagesEventServices();
+  try {
+    res.status(200).send({
+      error: false,
+      message: 'Find Success',
+      data: findImagesEventResult,
     });
   } catch (error) {
     next(error);

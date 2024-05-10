@@ -2,9 +2,11 @@
 
 import { Formik, Form, Field } from 'formik';
 import { useCreateTicketEventMutate } from '../../hooks/useCreateTicketEvent';
+import { useGetEvent } from '../../hooks/useGetEvent';
 
 export default function Ticket() {
   const { mutateCreateTicketEvent } = useCreateTicketEventMutate();
+  const { data } = useGetEvent();
   return (
     <div>
       <Formik
@@ -15,18 +17,17 @@ export default function Ticket() {
           eventId: '',
         }}
         onSubmit={(values) => {
-          console.log(values);
           mutateCreateTicketEvent({
             name: values.name,
-            price: values.price,
-            quantity: values.quantity,
+            price: parseInt(values.price),
+            quantity: parseInt(values.quantity),
             eventId: parseInt(values.eventId),
           });
         }}
       >
         <Form>
           <div className="flex flex-col items-center gap-3 px-5 py-10">
-            <h1>TICKET EVENT</h1>
+            <h1 className="font-serif text-2xl font-bold">TICKET EVENT</h1>
             <div className="w-[50vh]">
               <label className="form-control w-[50vh]">
                 <div className="label">
@@ -69,14 +70,23 @@ export default function Ticket() {
             <div className="w-[50vh]">
               <label className="form-control w-[50vh]">
                 <div className="label">
-                  <span className="label-text">For Event</span>
+                  <span className="label-text">Select Event</span>
                 </div>
                 <Field
-                  type="text"
+                  component="select"
+                  id="eventId"
                   name="eventId"
-                  placeholder="Type Date Event"
-                  className="input input-bordered w-[50vh]"
-                />
+                  className="select select-bordered w-[50vh]"
+                >
+                  <option disabled>Choose Location</option>
+                  {data?.data?.data.map((event, index) => {
+                    return (
+                      <option value={event.id} key={index}>
+                        {event.name}
+                      </option>
+                    );
+                  })}
+                </Field>
               </label>
             </div>
             <button className="btn w-[50vh] bg-indigo-500 text-white">
