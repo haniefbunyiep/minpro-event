@@ -1,5 +1,10 @@
 import { Router } from 'express';
-import { register, userVerification, eoRegister } from './RegisterController';
+import {
+  register,
+  userVerification,
+  eoRegister,
+  eoVerification,
+} from './RegisterController';
 import { tokenVerify } from '@/helpers/Token';
 import { validatorEORegister } from '@/middleware/EORegisterValidator';
 import { handleErrorEORegisterValidator } from '@/middleware/handleErrorEORegisterValidator';
@@ -14,5 +19,6 @@ router.post(
   handleErrorEORegisterValidator,
   eoRegister,
 );
+router.post('/eo-verification', tokenVerify, eoVerification);
 
 export default router;

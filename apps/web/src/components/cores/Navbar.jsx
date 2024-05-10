@@ -1,7 +1,13 @@
 'use client';
 import { UserContext } from '@/supports/context/userContext';
 import { useContext, useEffect } from 'react';
-import { deleteCookie } from '../../utils/Cookies';
+import {
+  deleteCookie,
+  deleteRoleCookie,
+  deleteEORoleCookie,
+  getEORoleCookie,
+  getRoleCookie,
+} from '../../utils/Cookies';
 import { useKeepLogin } from '../../hooks/useKeepLogin';
 import { MdEvent } from 'react-icons/md';
 import Link from 'next/link';
@@ -15,13 +21,21 @@ export default function Navbar() {
 
   const handleLogout = async () => {
     await deleteCookie();
+    await deleteRoleCookie();
+    await deleteEORoleCookie();
+    localStorage.removeItem('usr');
     setUserData(null);
     navigate.push('/');
+    // window.location.reload();
   };
 
   useEffect(() => {
     mutationKeepLogin();
   }, []);
+
+  // useEffect(() => {
+  //   handleLogout();
+  // }, []);
 
   return (
     <nav>
@@ -48,26 +62,46 @@ export default function Navbar() {
           <div>Partnership</div>
         </div>
         <div className=" flex h-full w-[60%] items-center justify-end gap-4 text-white">
-          <div className="hover:bg-denim hover:border-denim flex h-[35px] w-max items-center justify-center gap-2 rounded-md p-2">
-            <MdEvent />
-            <Link href={'/login/event-organizer'}>Event Organizer</Link>
-          </div>
           {!userData ? (
             <Link
               href={'/login/user'}
-              className=" bg-azureBlue border-azureBlue  hover:bg-dodgerBlue hover:border-dodgerBlue flex h-[35px] w-[73px] items-center justify-center rounded-md font-bold text-white"
+              className=" bg-azureBlue border-azureBlue  hover:bg-dodgerBlue hover:border-dodgerBlue m-2 flex h-[40px] w-[90px] items-center justify-center rounded-md font-bold text-white"
             >
               Login
             </Link>
           ) : (
-            <div
-              className=" bg-azureBlue border-azureBlue  hover:bg-dodgerBlue hover:border-dodgerBlue flex h-[35px] w-[73px] items-center justify-center rounded-md font-bold text-white"
-              onClick={() => {
-                handleLogout();
-              }}
-            >
-              Logout
-            </div>
+            <details className="dropdown">
+              <summary className="bg-azureBlue border-azureBlue hover:bg-dodgerBlue  hover:border-dodgerBlue m-2 flex h-[40px] w-[90px] items-center justify-center rounded-md font-bold text-white">
+                {userData?.name}
+              </summary>
+              <ul className="menu dropdown-content bg-azureBlue z-[1] w-max rounded-md p-2 shadow">
+                <li>
+                  {userData.role == 2 ? (
+                    <Link
+                      href={'/dashboard/event-organizer'}
+                      className="bg-azureBlue border-azureBlue  hover:bg-dodgerBlue hover:border-dodgerBlue flex h-max w-auto items-center justify-center rounded-md font-bold text-white"
+                    >
+                      Dashboard
+                    </Link>
+                  ) : (
+                    <Link
+                      href={'/dashboard/user'}
+                      className="bg-azureBlue border-azureBlue  hover:bg-dodgerBlue hover:border-dodgerBlue flex h-max w-auto items-center justify-center rounded-md font-bold text-white"
+                    >
+                      Dashboard
+                    </Link>
+                  )}
+                </li>
+                <li>
+                  <a
+                    className="bg-azureBlue border-azureBlue  hover:bg-dodgerBlue hover:border-dodgerBlue flex h-max w-auto items-center justify-center rounded-md font-bold text-white"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </a>
+                </li>
+              </ul>
+            </details>
           )}
         </div>
       </div>

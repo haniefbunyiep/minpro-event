@@ -151,7 +151,7 @@ const main = async () => {
           email: 'test@test.com',
           username: 'test',
           password: await HashingPassword({ password: 'test123' }),
-          roleId: 2,
+          roleId: 3,
           referralCodeId: 2,
           pointId: 2,
           userStatus: 'VERIFIED',
@@ -165,6 +165,7 @@ const main = async () => {
           name: 'eo test',
           email: 'eo@example.com',
           password: await HashingPassword({ password: 'test123' }),
+          status: 'VERIFIED',
         },
       ],
     });

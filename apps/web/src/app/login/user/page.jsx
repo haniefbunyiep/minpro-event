@@ -33,6 +33,15 @@ export default function Login() {
                   Sign up now
                 </a>
               </div>
+              <div className="text-[15px]">
+                Want to create event?{' '}
+                <a
+                  href="/login/event-organizer"
+                  className="text-azureBlue underline underline-offset-2"
+                >
+                  Login as Event Organizer
+                </a>
+              </div>
             </div>
             <div className="flex w-full flex-col gap-10">
               <div className="flex flex-col gap-2">
