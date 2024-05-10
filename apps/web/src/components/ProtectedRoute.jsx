@@ -6,20 +6,21 @@ import axios from 'axios';
 
 export default function ProtectedRoute({ children }) {
   const { userData } = useContext(UserContext);
-  console.log(userData);
-
-  let userLocalStorage = localStorage.getItem('user');
-  console.log(JSON.parse(userLocalStorage));
+  // console.log(userData);
 
   const navigate = useRouter();
   const path = usePathname();
 
   const authorizeUser = async () => {
+    let userLocalStorage = localStorage.getItem('usr');
+    userLocalStorage = JSON.parse(userLocalStorage);
+    // console.log(userLocalStorage?.role);
+    const cookie = await getCookie();
     const userCookie = await getRoleCookie();
     const EOCookie = await getEORoleCookie();
 
-    console.log(userCookie?.value);
-    // console.log(path);
+    // console.log(userCookie?.value);
+    // console.log(userCookie?.value);
 
     const beforeLogin = ['/dashboard/user', 'dashboard/event-organizer'];
     const protectedPathUserAfterLogin = ['/login/user', '/register/user'];
@@ -29,12 +30,17 @@ export default function ProtectedRoute({ children }) {
     ];
     const protectedPathBeforeLogin = ['/use-referral'];
 
-    // if ((userData?.role == 3) & (path == 'http://localhost:3000/login/user')) {
-    //   navigate.push('/');
-    // }
-    // if (!userData & beforeLogin.includes(path)) {
-    //   navigate.push('/');
-    // }
+    if (
+      (userLocalStorage?.role == '1234') &
+      protectedPathUserAfterLogin.includes(path)
+    ) {
+      navigate.push('/');
+    } else if (
+      (userLocalStorage?.role == '5678') &
+      beforeLogin.includes(path)
+    ) {
+      navigate.push('/');
+    }
   };
 
   useEffect(() => {

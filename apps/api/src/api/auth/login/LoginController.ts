@@ -93,13 +93,9 @@ export const keepLogin = async (
   try {
     const reqToken = req as IReqAccessToken;
     const { uid } = reqToken.payload;
-    console.log(uid);
 
     const findEOByIdResult = await findEOById({ uid });
     const findUserByIdResult = await findUserById({ uid });
-
-    console.log(findUserByIdResult);
-    console.log(findEOByIdResult);
 
     if (findEOByIdResult) {
       const accesstoken = await createUserToken({ uid: findEOByIdResult.uid });

@@ -4,8 +4,11 @@ import {
   findUserByReferralCodeIdService,
   findUseReferralService,
 } from './ReferralCodeService';
+import { createVoucherAfterUseReferralService } from './../register/RegisterService';
 import { addPointService, findUserService } from '../cores/AuthService';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';
+import { defaultExpireAt } from '@/helpers/DefaultDateForUserVoucher';
+import { voucherGenerator } from '@/helpers/CodeGenerator';
 
 export const useReferral = async (
   req: Request,
@@ -18,6 +21,8 @@ export const useReferral = async (
     const { useReferral } = req.body;
 
     const findUserResult = await findUserService({ uid });
+    const voucherCodeResult = await voucherGenerator();
+    const defaultExpire = await defaultExpireAt();
 
     const findReferralCodeResult = await findReferralCodeService({
       useReferral,
@@ -44,6 +49,12 @@ export const useReferral = async (
     await addPointService({
       referralCodeId: findReferralCodeResult.id,
       useBy: uid,
+    });
+
+    await createVoucherAfterUseReferralService({
+      uid: findUserResult?.uid!,
+      expireAt: defaultExpire,
+      voucherCode: voucherCodeResult,
     });
 
     res.status(200).send({

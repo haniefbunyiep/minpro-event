@@ -19,7 +19,6 @@ export default function Navbar() {
   const { mutationKeepLogin } = useKeepLogin();
   const navigate = useRouter();
 
-  console.log(userData);
   const handleLogout = async () => {
     await deleteCookie();
     await deleteRoleCookie();
@@ -27,14 +26,16 @@ export default function Navbar() {
     localStorage.removeItem('usr');
     setUserData(null);
     navigate.push('/');
-    window.location.reload();
+    // window.location.reload();
   };
-
-  console.log(userData);
 
   useEffect(() => {
     mutationKeepLogin();
   }, []);
+
+  // useEffect(() => {
+  //   handleLogout();
+  // }, []);
 
   return (
     <nav>
