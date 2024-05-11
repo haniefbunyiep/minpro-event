@@ -129,7 +129,7 @@ model Event {
   name        String
   startDate   DateTime @db.Date
   endDate     DateTime @db.Date
-  time        DateTime @db.Time()
+  time        DateTime @db.Timestamp()
   locationId  Int
   location    Location @relation(fields: [locationId], references: [id])
   description String

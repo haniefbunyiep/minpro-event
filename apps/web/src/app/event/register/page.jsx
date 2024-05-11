@@ -2,11 +2,11 @@
 
 import { Formik, Form, Field } from 'formik';
 import { useState } from 'react';
-import { useCreateEventMutate } from '../../hooks/useCreateEventMutate';
-import { useGetCategory } from '../../hooks/useGetCategory';
-import { ModalCreateLocation } from '../../components/modalCreateLocation';
+import { useCreateEventMutate } from '../../../hooks/useCreateEventMutate';
+import { useGetCategory } from '../../../hooks/useGetCategory';
+import { ModalCreateLocation } from '../../../components/modalCreateLocation';
 
-export default function EventPage() {
+export default function EventRegisterPage() {
   const [upload, setUpload] = useState([]);
   const { dataCategory, dataLocation } = useGetCategory();
 
@@ -135,7 +135,7 @@ export default function EventPage() {
                   name="locationId"
                   className="select select-bordered w-[100vh]"
                 >
-                  <option disabled>Choose Location</option>
+                  <option>Choose Location</option>
                   {dataLocation?.map((location, index) => {
                     return (
                       <option value={location.id} key={index}>
@@ -157,7 +157,7 @@ export default function EventPage() {
                   name="categoryId"
                   className="select select-bordered w-[100vh]"
                 >
-                  <option disabled>Choose Category</option>
+                  <option>Choose Category</option>
                   {dataCategory?.map((category, index) => {
                     return (
                       <option value={category.id} key={index}>
