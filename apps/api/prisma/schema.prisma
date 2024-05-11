@@ -229,7 +229,6 @@ model Promotion {
   user      User    @relation(fields: [userId], references: [uid])
   voucherId Int
   voucher   Voucher @relation(fields: [voucherId], references: [id])
-  discount  Int
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -239,18 +238,15 @@ model Promotion {
 }
 
 model Voucher {
-  id        Int      @id @default(autoincrement())
-  name      String
-  code      String
-  eventId   Int
-  event     Event    @relation(fields: [id], references: [id])
-  ticketId  Int
-  ticket    Ticket   @relation(fields: [ticketId], references: [id])
-  pieces    Int
-  stok      Int
-  limited   Int
-  startDate DateTime @db.Date
-  endDate   DateTime @db.Date
+  id              Int    @id @default(autoincrement())
+  name            String
+  code            String
+  eventId         Int
+  event           Event  @relation(fields: [eventId], references: [id])
+  ticketId        Int
+  ticket          Ticket @relation(fields: [ticketId], references: [id])
+  discountVoucher Int    @default(10)
+  stok            Int
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

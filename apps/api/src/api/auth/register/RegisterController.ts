@@ -9,6 +9,9 @@ import {
   createVoucherAfterUseReferralService,
   findUserService,
   createEOService,
+  findEOByemailService,
+  findEOByIdService,
+  userEOVerificationService,
 } from './RegisterService';
 import { HashingPassword } from '@/helpers/Hashing';
 import { referralGenerator } from '@/helpers/CodeGenerator';
@@ -130,6 +133,57 @@ export const register = async (
   }
 };
 
+export const eoRegister = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const findEOByEmail = await findEOByemailService({ email });
+
+    if (findEOByEmail) throw new Error('Email already use');
+
+    const hashedPassword = await HashingPassword({ password });
+
+    const createEOResult = await createEOService({
+      name,
+      email,
+      password: hashedPassword,
+    });
+
+    const accesstoken = await createRegisterToken({ uid: createEOResult.uid });
+
+    const verificationHTML = fs.readFileSync(
+      'src/template/EmailVerification.html',
+      'utf-8',
+    );
+
+    let verificationHTMLCompiler: any =
+      await Handlebars.compile(verificationHTML);
+    verificationHTMLCompiler = verificationHTMLCompiler({
+      username: email,
+      link: `http://localhost:3000/verification/event-organizer/${accesstoken}`,
+    });
+
+    transporterNodemailer.sendMail({
+      from: 'hr-app-pwdk',
+      to: email,
+      subject: 'Activate Your EO Account',
+      html: verificationHTMLCompiler,
+    });
+
+    res.status(201).send({
+      error: false,
+      message: 'Register Success',
+      data: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 export const userVerification = async (
   req: Request,
   res: Response,
@@ -172,42 +226,29 @@ export const userVerification = async (
   }
 };
 
-export const eoRegister = async (
+export const eoVerification = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    const { name, email, password } = req.body;
+    const reqToken = req as IReqAccessToken;
+    const { uid } = reqToken.payload;
 
-    const createEOResult = await createEOService({ name, email, password });
+    const eoVerificationValidator = await findEOByIdService({ uid });
+    console.log(eoVerificationValidator);
 
-    const accesstoken = await createRegisterToken({ uid: createEOResult.uid });
+    if (eoVerificationValidator?.status == 'VERIFIED') {
+      throw new Error('This account already verified');
+    } else if (eoVerificationValidator?.status == 'UNVERIFY') {
+      await userEOVerificationService({ uid });
 
-    const verificationHTML = fs.readFileSync(
-      'src/template/EmailVerification.html',
-      'utf-8',
-    );
-
-    let verificationHTMLCompiler: any =
-      await Handlebars.compile(verificationHTML);
-    verificationHTMLCompiler = verificationHTMLCompiler({
-      username: email,
-      link: `http://localhost:3000/verification/${accesstoken}`,
-    });
-
-    transporterNodemailer.sendMail({
-      from: 'hr-app-pwdk',
-      to: email,
-      subject: 'Activate Your EO Account',
-      html: verificationHTMLCompiler,
-    });
-
-    res.status(201).send({
-      error: false,
-      message: 'Register Success',
-      data: null,
-    });
+      return res.status(201).send({
+        error: false,
+        message: 'Verify Success',
+        data: null,
+      });
+    }
   } catch (error) {
     next(error);
   }

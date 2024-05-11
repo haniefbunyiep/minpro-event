@@ -48,7 +48,7 @@ const main = async () => {
     await tx.event.createMany({
       data: [
         {
-          name: 'Festival Music',
+          name: 'Festival Music Classic',
           startDate: '2024-07-01T00:00:00.000Z',
           endDate: '2024-07-02T00:00:00.000Z',
           time: '2024-07-01T17:00:00.000Z',
@@ -66,13 +66,36 @@ const main = async () => {
           categoryId: 2,
         },
         {
-          name: 'Festival Music',
+          name: 'Festival Music Rock',
           startDate: '2024-07-01T00:00:00.000Z',
           endDate: '2024-07-02T00:00:00.000Z',
           time: '2024-07-01T17:00:00.000Z',
           locationId: 3,
           description: 'Festival Music 2024',
           categoryId: 1,
+        },
+      ],
+    });
+
+    await tx.ticket.createMany({
+      data: [
+        {
+          eventId: 1,
+          name: 'Early 1',
+          price: 100000,
+          quantity: 100,
+        },
+        {
+          eventId: 1,
+          name: 'Early 2',
+          price: 200000,
+          quantity: 100,
+        },
+        {
+          eventId: 1,
+          name: 'Early 3',
+          price: 300000,
+          quantity: 100,
         },
       ],
     });
@@ -128,7 +151,7 @@ const main = async () => {
           email: 'test@test.com',
           username: 'test',
           password: await HashingPassword({ password: 'test123' }),
-          roleId: 2,
+          roleId: 3,
           referralCodeId: 2,
           pointId: 2,
           userStatus: 'VERIFIED',
@@ -142,6 +165,7 @@ const main = async () => {
           name: 'eo test',
           email: 'eo@example.com',
           password: await HashingPassword({ password: 'test123' }),
+          status: 'VERIFIED',
         },
       ],
     });

@@ -1,6 +1,6 @@
 import { useEOLoginMutation } from './../api/useEOLoginMutation';
 import { toast } from 'react-toastify';
-import { setCookie } from './../utils/Cookies';
+import { setEOCookie } from './../utils/Cookies';
 import { useRouter } from 'next/navigation';
 import { UserContext } from '@/supports/context/userContext';
 import { useContext } from 'react';
@@ -11,8 +11,16 @@ export const useEOLogin = () => {
 
   const { mutate: mutationEOLogin } = useEOLoginMutation({
     onSuccess: (res) => {
-      setCookie(res.data.data.accesstoken);
-      setUserData({ session: res.data.data.accestoken });
+      let nameResult = res.data.data.name;
+      nameResult = nameResult.split(' ');
+
+      setEOCookie(res.data.data.accesstoken, true);
+
+      setUserData({
+        session: res.data.data.accesstoken,
+        name: nameResult[0],
+        role: res.data.data.role,
+      });
       toast.success(res.data.message);
       navigate.push('/');
     },

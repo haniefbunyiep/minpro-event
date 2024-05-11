@@ -15,6 +15,7 @@ module.exports = {
         dodgerBlue: '#319CFF',
         scienceBlue: '#0169D9',
         denim: '#1866BA',
+        downriver: '#0B2B55',
       },
     },
     screens: {
