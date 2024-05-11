@@ -20,7 +20,7 @@ export default function Verification({ params }) {
       <Link className="btn w-[300px]" href="/">
         Back to Home
       </Link>
-      <Link className="btn w-[300px]" href="/login">
+      <Link className="btn w-[300px]" href="/login/user">
         Login now
       </Link>
     </div>

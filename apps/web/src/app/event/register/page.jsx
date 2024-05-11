@@ -2,11 +2,11 @@
 
 import { Formik, Form, Field } from 'formik';
 import { useState } from 'react';
-import { useCreateEventMutate } from '../../hooks/useCreateEventMutate';
-import { useGetCategory } from '../../hooks/useGetCategory';
-import { ModalCreateLocation } from '../../components/modalCreateLocation';
+import { useCreateEventMutate } from '../../../hooks/useCreateEventMutate';
+import { useGetCategory } from '../../../hooks/useGetCategory';
+import { ModalCreateLocation } from '../../../components/modalCreateLocation';
 
-export default function EventPage() {
+export default function EventRegisterPage() {
   const [upload, setUpload] = useState([]);
   const { dataCategory, dataLocation } = useGetCategory();
 
@@ -135,7 +135,7 @@ export default function EventPage() {
                   name="locationId"
                   className="select select-bordered w-[100vh]"
                 >
-                  <option disabled>Choose Location</option>
+                  <option>Choose Location</option>
                   {dataLocation?.map((location, index) => {
                     return (
                       <option value={location.id} key={index}>
@@ -157,7 +157,7 @@ export default function EventPage() {
                   name="categoryId"
                   className="select select-bordered w-[100vh]"
                 >
-                  <option disabled>Choose Category</option>
+                  <option>Choose Category</option>
                   {dataCategory?.map((category, index) => {
                     return (
                       <option value={category.id} key={index}>
@@ -182,6 +182,12 @@ export default function EventPage() {
                 />
               </label>
             </div>
+            <div className="bottom-[101px] flex flex-col items-center justify-center pl-[590px]">
+              <h1 className="py-1 text-center text-sm font-bold">
+                Have Another Location?
+              </h1>
+              <ModalCreateLocation />
+            </div>
             <div className="w-[100vh]">
               <label className="form-control w-[100vh]">
                 <div className="label">
@@ -203,12 +209,6 @@ export default function EventPage() {
           </div>
         </Form>
       </Formik>
-      <div className="absolute bottom-[101px] flex flex-col items-center justify-center pl-[590px]">
-        <h1 className="py-1 text-center text-sm font-bold">
-          Have Another Location?
-        </h1>
-        <ModalCreateLocation />
-      </div>
     </div>
   );
 }

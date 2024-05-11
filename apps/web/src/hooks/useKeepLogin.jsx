@@ -9,12 +9,15 @@ export const useKeepLogin = () => {
 
   const { mutate: mutationKeepLogin } = useKeepLoginMutation({
     onSuccess: (res) => {
+      let nameResult = res.data.data.name;
+      nameResult = nameResult.split(' ');
+
       setUserData({
         session: res.data.data.session,
-        name: res.data.data.name,
+        name: nameResult[0],
+        role: res.data.data.role,
       });
       // console.log(userName);
-      console.log(res);
     },
     onError: (err) => {
       // console.log(err.response.data.message);

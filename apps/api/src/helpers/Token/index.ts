@@ -19,7 +19,13 @@ export const createRegisterToken = ({ uid }: { uid: string }) => {
 
 export const createEOToken = ({ uid }: { uid: string }) => {
   return jwt.sign({ uid }, process.env.JWT_SECRET_KEY as string, {
-    expiresIn: '1d',
+    expiresIn: '7d',
+  });
+};
+
+export const createRoleToken = ({ role }: { role: number }) => {
+  return jwt.sign({ role }, process.env.JWT_SECRET_KEY as string, {
+    expiresIn: '7d',
   });
 };
 
