@@ -82,6 +82,7 @@ CREATE TABLE `roles` (
 -- CreateTable
 CREATE TABLE `events` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `eo` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
     `startDate` DATE NOT NULL,
     `endDate` DATE NOT NULL,
@@ -170,7 +171,6 @@ CREATE TABLE `event_promotions` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `userId` VARCHAR(191) NOT NULL,
     `voucherId` INTEGER NOT NULL,
-    `discount` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -185,11 +185,8 @@ CREATE TABLE `event_vouchers` (
     `code` VARCHAR(191) NOT NULL,
     `eventId` INTEGER NOT NULL,
     `ticketId` INTEGER NOT NULL,
-    `pieces` INTEGER NOT NULL,
+    `discountVoucher` INTEGER NOT NULL DEFAULT 10,
     `stok` INTEGER NOT NULL,
-    `limited` INTEGER NOT NULL,
-    `startDate` DATE NOT NULL,
-    `endDate` DATE NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
@@ -242,10 +239,13 @@ ALTER TABLE `use_referral` ADD CONSTRAINT `use_referral_referralCodeId_fkey` FOR
 ALTER TABLE `use_referral` ADD CONSTRAINT `use_referral_useBy_fkey` FOREIGN KEY (`useBy`) REFERENCES `users`(`uid`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `events` ADD CONSTRAINT `events_locationId_fkey` FOREIGN KEY (`locationId`) REFERENCES `event_location`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `events` ADD CONSTRAINT `events_eo_fkey` FOREIGN KEY (`eo`) REFERENCES `event_organizers`(`uid`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `events` ADD CONSTRAINT `events_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `event_categories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `events` ADD CONSTRAINT `events_locationId_fkey` FOREIGN KEY (`locationId`) REFERENCES `event_location`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `event_images` ADD CONSTRAINT `event_images_eventId_fkey` FOREIGN KEY (`eventId`) REFERENCES `events`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -266,7 +266,7 @@ ALTER TABLE `event_promotions` ADD CONSTRAINT `event_promotions_userId_fkey` FOR
 ALTER TABLE `event_promotions` ADD CONSTRAINT `event_promotions_voucherId_fkey` FOREIGN KEY (`voucherId`) REFERENCES `event_vouchers`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `event_vouchers` ADD CONSTRAINT `event_vouchers_id_fkey` FOREIGN KEY (`id`) REFERENCES `events`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `event_vouchers` ADD CONSTRAINT `event_vouchers_eventId_fkey` FOREIGN KEY (`eventId`) REFERENCES `events`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `event_vouchers` ADD CONSTRAINT `event_vouchers_ticketId_fkey` FOREIGN KEY (`ticketId`) REFERENCES `event_tickets`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

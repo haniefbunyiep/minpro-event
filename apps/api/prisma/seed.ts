@@ -20,6 +20,7 @@ const main = async () => {
         },
       ],
     });
+
     await tx.location.createMany({
       data: [
         {
@@ -45,60 +46,60 @@ const main = async () => {
       ],
     });
 
-    await tx.event.createMany({
-      data: [
-        {
-          name: 'Festival Music Classic',
-          startDate: '2024-07-01T00:00:00.000Z',
-          endDate: '2024-07-02T00:00:00.000Z',
-          time: '2024-07-01T17:00:00.000Z',
-          locationId: 1,
-          description: 'Festival Music 2024',
-          categoryId: 1,
-        },
-        {
-          name: 'Music Indie',
-          startDate: '2024-07-01T00:00:00.000Z',
-          endDate: '2024-07-02T00:00:00.000Z',
-          time: '2024-07-01T17:00:00.000Z',
-          locationId: 2,
-          description: 'Festival Music 2024',
-          categoryId: 2,
-        },
-        {
-          name: 'Festival Music Rock',
-          startDate: '2024-07-01T00:00:00.000Z',
-          endDate: '2024-07-02T00:00:00.000Z',
-          time: '2024-07-01T17:00:00.000Z',
-          locationId: 3,
-          description: 'Festival Music 2024',
-          categoryId: 1,
-        },
-      ],
-    });
+    // await tx.event.createMany({
+    //   data: [
+    //     {
+    //       name: 'Festival Music Classic',
+    //       startDate: '2024-07-01T00:00:00.000Z',
+    //       endDate: '2024-07-02T00:00:00.000Z',
+    //       time: '2024-07-01T17:00:00.000Z',
+    //       locationId: 1,
+    //       description: 'Festival Music 2024',
+    //       categoryId: 1,
+    //     },
+    //     {
+    //       name: 'Music Indie',
+    //       startDate: '2024-07-01T00:00:00.000Z',
+    //       endDate: '2024-07-02T00:00:00.000Z',
+    //       time: '2024-07-01T17:00:00.000Z',
+    //       locationId: 2,
+    //       description: 'Festival Music 2024',
+    //       categoryId: 2,
+    //     },
+    //     {
+    //       name: 'Festival Music Rock',
+    //       startDate: '2024-07-01T00:00:00.000Z',
+    //       endDate: '2024-07-02T00:00:00.000Z',
+    //       time: '2024-07-01T17:00:00.000Z',
+    //       locationId: 3,
+    //       description: 'Festival Music 2024',
+    //       categoryId: 1,
+    //     },
+    //   ],
+    // });
 
-    await tx.ticket.createMany({
-      data: [
-        {
-          eventId: 1,
-          name: 'Early 1',
-          price: 100000,
-          quantity: 100,
-        },
-        {
-          eventId: 1,
-          name: 'Early 2',
-          price: 200000,
-          quantity: 100,
-        },
-        {
-          eventId: 1,
-          name: 'Early 3',
-          price: 300000,
-          quantity: 100,
-        },
-      ],
-    });
+    // await tx.ticket.createMany({
+    //   data: [
+    //     {
+    //       eventId: 1,
+    //       name: 'Early 1',
+    //       price: 100000,
+    //       quantity: 100,
+    //     },
+    //     {
+    //       eventId: 1,
+    //       name: 'Early 2',
+    //       price: 200000,
+    //       quantity: 100,
+    //     },
+    //     {
+    //       eventId: 1,
+    //       name: 'Early 3',
+    //       price: 300000,
+    //       quantity: 100,
+    //     },
+    //   ],
+    // });
 
     await tx.role.createMany({
       data: [

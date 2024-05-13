@@ -48,10 +48,15 @@ export const updateEventServices = async (data: any, images: any, id: any) => {
   });
 };
 
-export const createEventServices = async (data: any, images: any) => {
+export const createEventServices = async (
+  { uid }: { uid: string },
+  data: any,
+  images: any,
+) => {
   return await prisma.$transaction(async (tx) => {
     const createEvent = await tx.event.create({
       data: {
+        eo: uid,
         name: data.name,
         startDate: new Date(data.startDate),
         endDate: new Date(data.endDate),
