@@ -8,6 +8,7 @@ import {
   // findTicketEventImages,
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
+import { IReqAccessToken } from '@/helpers/Token/TokenType';
 
 export const updateEventController = async (
   req: Request,
@@ -44,6 +45,9 @@ export const createEventController = async (
   res: Response,
   next: NextFunction,
 ) => {
+  const reqToken = req as IReqAccessToken;
+  const { uid } = reqToken.payload;
+  console.log(uid);
   const data = JSON.parse(req.body.data);
 
   try {
@@ -51,7 +55,7 @@ export const createEventController = async (
       const uploadFile = Array.isArray(req.files)
         ? req.files
         : req.files['images'];
-      await createEventServices(data, uploadFile);
+      await createEventServices({ uid: uid }, data, uploadFile);
     }
     return res.status(201).send({
       error: false,

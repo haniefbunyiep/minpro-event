@@ -1,6 +1,7 @@
 import { prisma } from '../../../lib/PrismaClient';
 import { IAddPointServiceParams } from './AuthInterface';
 import { defaultExpireAt } from './../../../helpers/DefaultDateForUserVoucher';
+import { Prisma } from '@prisma/client';
 
 export const addPointService = async ({
   referralCodeId,
@@ -88,3 +89,16 @@ export const findUserService = async ({ uid }: { uid: string }) => {
     },
   });
 };
+
+export const getUserRoleService = async ({ uid }: { uid: string }) => {
+  return await prisma.user.findUnique({
+    where: {
+      uid: uid,
+    },
+    include: {
+      role: true,
+    },
+  });
+};
+
+export const getDataPerMonth = async ({ id }: { id: Number }) => {};
