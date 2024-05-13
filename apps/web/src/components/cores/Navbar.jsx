@@ -7,6 +7,7 @@ import {
   deleteEORoleCookie,
   getEORoleCookie,
   getRoleCookie,
+  getCookie,
 } from '../../utils/Cookies';
 import { useKeepLogin } from '../../hooks/useKeepLogin';
 import { MdEvent } from 'react-icons/md';
@@ -32,10 +33,6 @@ export default function Navbar() {
   useEffect(() => {
     mutationKeepLogin();
   }, []);
-
-  // useEffect(() => {
-  //   handleLogout();
-  // }, []);
 
   return (
     <nav>
