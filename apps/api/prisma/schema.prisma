@@ -131,7 +131,7 @@ model Event {
   name        String
   startDate   DateTime @db.Date
   endDate     DateTime @db.Date
-  time        DateTime @db.Time()
+  time        DateTime @db.Timestamp()
   locationId  Int
   description String
   categoryId  Int

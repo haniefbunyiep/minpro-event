@@ -4,7 +4,7 @@ import {
   listEventServices,
   updateEventServices,
   findEventServices,
-  findImagesEventServices,
+  findEventServicesById,
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';
@@ -102,17 +102,25 @@ export const findEventController = async (
   }
 };
 
-export const findImagesEventController = async (
+export const findEventControllerById = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
-  const findImagesEventResult = await findImagesEventServices();
+  const { id } = req.params;
+  const findEventByIdResult = await findEventServicesById({ id });
+  const slackEvent = await findEventServicesById({
+    id: findEventByIdResult?.id,
+  });
+  link: `http://localhost:8000/${slackEvent}`;
   try {
     res.status(200).send({
       error: false,
       message: 'Find Success',
-      data: findImagesEventResult,
+      data: {
+        event: findEventByIdResult,
+        image: findEventByIdResult?.EventImage?.url,
+      },
     });
   } catch (error) {
     next(error);

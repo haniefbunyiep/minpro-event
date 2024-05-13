@@ -1,26 +1,78 @@
 'use client';
 
-import { Carousel } from '@material-tailwind/react';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Image from 'next/image';
 
-export const CarouselTransition = () => {
+export const CarouselPage = () => {
+  var settings = {
+    dots: true,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: true,
+  };
   return (
-    <Carousel transition={{ duration: 2 }} className="rounded-xl">
-      <img
-        src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2560&q=80"
-        alt="image 1"
-        className="h-full w-full object-cover"
-      />
-      <img
-        src="https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-        alt="image 2"
-        className="h-full w-full object-cover"
-      />
-      <img
-        src="https://images.unsplash.com/photo-1518623489648-a173ef7824f3?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2762&q=80"
-        alt="image 3"
-        className="h-full w-full object-cover"
-      />
-    </Carousel>
+    <div>
+      <Slider {...settings}>
+        <div className="slider-container">
+          <Image
+            src={'/b1.jpg'}
+            alt="Heptatix"
+            className="h-[500px] w-[100vw] rounded-lg"
+            width={10000}
+            height={10000}
+            quality={100}
+            priority={true}
+          />
+        </div>
+        <div>
+          <Image
+            src={'/b2.jpg'}
+            alt="Heptatix"
+            className="h-[500px] w-[100vw] rounded-lg"
+            width={10000}
+            height={10000}
+            quality={100}
+            priority={true}
+          />
+        </div>
+        <div>
+          <Image
+            src={'/b3.jpg'}
+            alt="Heptatix"
+            className="h-[500px] w-[100vw] rounded-lg"
+            width={10000}
+            height={10000}
+            quality={100}
+            priority={true}
+          />
+        </div>
+        <div>
+          <Image
+            src={'/b4.jpg'}
+            alt="Heptatix"
+            className="h-[500px] w-[100vw] rounded-lg"
+            width={10000}
+            height={10000}
+            quality={100}
+            priority={true}
+          />
+        </div>
+        <div>
+          <Image
+            src={'/b5.jpg'}
+            alt="Heptatix"
+            className="h-[500px] w-[100vw] rounded-lg"
+            width={10000}
+            height={10000}
+            quality={100}
+            priority={true}
+          />
+        </div>
+      </Slider>
+    </div>
   );
 };
-export default CarouselTransition;
