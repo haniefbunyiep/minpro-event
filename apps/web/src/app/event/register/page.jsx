@@ -67,10 +67,10 @@ export default function EventRegisterPage() {
         }}
       >
         <Form>
-          <div className="flex flex-col items-center gap-3 px-5 py-5">
+          <div className=" flex flex-col items-center gap-3 px-5 py-5">
             <h1 className="font-serif text-2xl font-bold">REGISTER EVENT</h1>
-            <div className="w-[100vh]">
-              <label className="form-control w-[100vh]">
+            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
                 <div className="label">
                   <span className="label-text">Name</span>
                 </div>
@@ -78,13 +78,13 @@ export default function EventRegisterPage() {
                   type="text"
                   name="name"
                   placeholder="Type Event Name"
-                  className="input input-bordered w-[100vh]"
+                  className="input input-bordered mobile:w-[40vh] w-[70vh] lg:w-[100vh]"
                 />
               </label>
             </div>
-            <div className="flex flex-row gap-2">
-              <div className="w-[50vh]">
-                <label className="form-control w-[50vh]">
+            <div className="mobile:flex-col flex flex-row gap-2">
+              <div className="mobile:w-[40vh] sm:w-[35vh] lg:w-[50vh]">
+                <label className="form-control mobile:w-[40vh] sm:w-[35vh] lg:w-[50vh]">
                   <div className="label">
                     <span className="label-text">Start Date Event</span>
                   </div>
@@ -92,12 +92,12 @@ export default function EventRegisterPage() {
                     type="date"
                     name="startDate"
                     placeholder="Type Date Event"
-                    className="input input-bordered w-[50vh]"
+                    className="input input-bordered mobile:w-[40vh] sm:w-[35vh] lg:w-[50vh]"
                   />
                 </label>
               </div>
-              <div className="w-[50vh]">
-                <label className="form-control w-[50vh]">
+              <div className="mobile:w-[40vh] sm:w-[35vh] lg:w-[50vh]">
+                <label className="form-control mobile:w-[40vh] sm:w-[35vh] lg:w-[50vh]">
                   <div className="label">
                     <span className="label-text">End Date Event</span>
                   </div>
@@ -105,13 +105,13 @@ export default function EventRegisterPage() {
                     type="date"
                     name="endDate"
                     placeholder="Type Date Event"
-                    className="input input-bordered w-[50vh]"
+                    className="input input-bordered mobile:w-[40vh] sm:w-[35vh] lg:w-[50vh]"
                   />
                 </label>
               </div>
             </div>
-            <div className="w-[100vh]">
-              <label className="form-control w-[100vh]">
+            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
                 <div className="label">
                   <span className="label-text">Start Time Event</span>
                 </div>
@@ -119,13 +119,13 @@ export default function EventRegisterPage() {
                   type="time"
                   name="time"
                   placeholder="Type Date Event"
-                  className="input input-bordered w-[100vh]"
+                  className="input input-bordered mobile:w-[40vh] w-[70vh] lg:w-[100vh]"
                 />
               </label>
             </div>
 
-            <div className="w-[100vh]">
-              <label className="form-control w-[100vh]">
+            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
                 <div className="label">
                   <span className="label-text">Location Event</span>
                 </div>
@@ -133,7 +133,7 @@ export default function EventRegisterPage() {
                   component="select"
                   id="locationId"
                   name="locationId"
-                  className="select select-bordered w-[100vh]"
+                  className="select select-bordered mobile:w-[40vh] w-[70vh] lg:w-[100vh]"
                 >
                   <option>Choose Location</option>
                   {dataLocation?.map((location, index) => {
@@ -146,8 +146,8 @@ export default function EventRegisterPage() {
                 </Field>
               </label>
             </div>
-            <div className="w-[100vh] pt-[75px]">
-              <label className="form-control w-[100vh]">
+            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
                 <div className="label">
                   <span className="label-text">Category Event</span>
                 </div>
@@ -155,7 +155,7 @@ export default function EventRegisterPage() {
                   component="select"
                   id="categoryId"
                   name="categoryId"
-                  className="select select-bordered w-[100vh]"
+                  className="select select-bordered mobile:w-[40vh] w-[70vh] lg:w-[100vh]"
                 >
                   <option>Choose Category</option>
                   {dataCategory?.map((category, index) => {
@@ -168,8 +168,8 @@ export default function EventRegisterPage() {
                 </Field>
               </label>
             </div>
-            <div className="w-[100vh]">
-              <label className="form-control w-[100vh]">
+            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
                 <div className="label">
                   <span className="label-text">Description Event</span>
                 </div>
@@ -178,18 +178,13 @@ export default function EventRegisterPage() {
                   type="text"
                   name="description"
                   placeholder="Type Description Event"
-                  className="input input-bordered h-[20vh] w-[100vh]"
+                  className="input input-bordered mobile:w-[40vh] h-[20vh] w-[70vh] lg:w-[100vh]"
                 />
               </label>
             </div>
-            <div className="bottom-[101px] flex flex-col items-center justify-center pl-[590px]">
-              <h1 className="py-1 text-center text-sm font-bold">
-                Have Another Location?
-              </h1>
-              <ModalCreateLocation />
-            </div>
-            <div className="w-[100vh]">
-              <label className="form-control w-[100vh]">
+
+            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
                 <div className="label">
                   <span className="label-text">Select Images Event</span>
                 </div>
@@ -199,16 +194,22 @@ export default function EventRegisterPage() {
                   onChange={(event) => onSetFile(event)}
                   multiple
                   placeholder="Upload Image Event"
-                  className="input input-bordered w-[100vh] rounded-md px-2 py-2"
+                  className="input input-bordered mobile:w-[40vh] w-[70vh] rounded-md px-2 py-2 lg:w-[100vh]"
                 />
               </label>
             </div>
-            <button className="btn bg-congressBlue w-[100vh] text-white">
+            <button className="btn bg-congressBlue mobile:w-[40vh] w-[70vh] text-white lg:w-[100vh]">
               Submit
             </button>
           </div>
         </Form>
       </Formik>
+      {/* <div className="mobile:pl-[50px] mobile:bottom-[200px] absolute flex flex-col items-center justify-center pl-[590px]">
+        <h1 className="py-1 text-center text-sm font-bold">
+          Have Another Location?
+        </h1>
+        <ModalCreateLocation />
+      </div> */}
     </div>
   );
 }
