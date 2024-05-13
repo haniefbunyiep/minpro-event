@@ -4,7 +4,8 @@ import {
   listEventServices,
   updateEventServices,
   findEventServices,
-  findEventServicesById,
+  // findEventServicesById,
+  // findTicketEventImages,
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';
@@ -85,7 +86,34 @@ export const listEventController = async (
   }
 };
 
-export const findEventController = async (
+// export const findEventController = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction,
+// ) => {
+//   try {
+//     const findEventResult = await findTicketEventImages();
+//     res.status(200).send({
+//       error: false,
+//       message: 'Find Success',
+//       data: {
+//         images: findEventResult[0].url,
+//         nameEvent: findEventResult[0].event.name,
+//         startDate: findEventResult[0].event.startDate,
+//         endDate: findEventResult[0].event.endDate,
+//         time: findEventResult[0].event.time,
+//         address: findEventResult[0].event.location.address,
+//         city: findEventResult[0].event.location.city,
+//         category: findEventResult[0].event.category.name,
+//         nameTicket: findEventResult[0].event.Ticket[0].name,
+//         price: findEventResult[0].event.Ticket[0].price,
+//       },
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+export const findEventAllController = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -96,33 +124,44 @@ export const findEventController = async (
       error: false,
       message: 'Find Success',
       data: findEventResult,
+      // data: {
+      //   // event: findEventResult?.name,
+      //   // startDate: findEventResult?.startDate,
+      //   // endDate: findEventResult?.endDate,
+      //   // time: findEventResult?.time,
+      //   // address: findEventResult?.location.address,
+      //   // city: findEventResult?.location.city,
+      //   // category: findEventResult?.category.name,
+      //   // images: findEventResult?.EventImage?.url,
+      //   // ticket: findEventResult?.Ticket?.price,
+      // },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const findEventControllerById = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  const { id } = req.params;
-  const findEventByIdResult = await findEventServicesById({ id });
-  const slackEvent = await findEventServicesById({
-    id: findEventByIdResult?.id,
-  });
-  link: `http://localhost:8000/${slackEvent}`;
-  try {
-    res.status(200).send({
-      error: false,
-      message: 'Find Success',
-      data: {
-        event: findEventByIdResult,
-        image: findEventByIdResult?.EventImage?.url,
-      },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+// export const findEventControllerById = async (
+//   req: Request,
+//   res: Response,
+//   next: NextFunction,
+// ) => {
+//   const { id } = req.params;
+//   const findEventByIdResult = await findEventServicesById({ id });
+//   const slackEvent = await findEventServicesById({
+//     id: findEventByIdResult?.id,
+//   });
+//   link: `http://localhost:8000/${slackEvent}`;
+//   try {
+//     res.status(200).send({
+//       error: false,
+//       message: 'Find Success',
+//       data: {
+//         event: findEventByIdResult,
+//         image: findEventByIdResult?.EventImage?.url,
+//       },
+//     });
+//   } catch (error) {
+//     next(error);
+//   }
+// };

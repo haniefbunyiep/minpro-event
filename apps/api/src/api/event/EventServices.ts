@@ -99,17 +99,35 @@ export const findEventServices = async () => {
       location: true,
       category: true,
       EventImage: true,
+      Ticket: true,
     },
   });
 };
 
-export const findEventServicesById = async ({ id }: any) => {
-  return await prisma.event.findFirst({
-    where: {
-      id: Number(id),
-    },
-    include: {
-      EventImage: true,
-    },
-  });
-};
+// export const findEventServicesById = async ({ id }: any) => {
+//   return await prisma.event.findFirst({
+//     where: {
+//       id: Number(id),
+//     },
+//     include: {
+//       EventImage: true,
+//     },
+//   });
+// };
+
+// export const findTicketEventImages = async () => {
+//   return await prisma.$transaction(async (tx) => {
+//     const findEventImagesAndTicket = await tx.eventImage.findMany({
+//       include: {
+//         event: {
+//           include: {
+//             location: true,
+//             category: true,
+//             Ticket: true,
+//           },
+//         },
+//       },
+//     });
+//     return findEventImagesAndTicket;
+//   });
+// };
