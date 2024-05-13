@@ -3,7 +3,7 @@ import {
   createEventController,
   findEventAllController,
   // findEventController,
-  findEventControllerById,
+  // findEventControllerById,
   listEventController,
   updateEventController,
 } from './EventController';
@@ -17,6 +17,6 @@ router.get('/list', listEventController);
 router.put('/edit-event/:id', uploader, updateEventController);
 router.get('/', findEventAllController);
 // router.get('/test', findEventController);
-router.get('/:id', findEventControllerById);
+// router.get('/:id', findEventControllerById);
 
 export default router;

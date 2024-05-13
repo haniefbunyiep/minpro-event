@@ -54,7 +54,7 @@ export const createEventServices = async (
   data: any,
   images: any,
 ) => {
-  return await prisma.$transaction(async (tx) => {
+  return await prisma.$transaction(async (tx: any) => {
     const timeC = moment().format();
     const createEvent = await tx.event.create({
       data: {
