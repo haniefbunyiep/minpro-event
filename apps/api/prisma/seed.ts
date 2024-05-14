@@ -10,13 +10,19 @@ const main = async () => {
     await tx.category.createMany({
       data: [
         {
-          name: 'Music Indie',
+          name: 'Music',
         },
         {
-          name: 'Music Classic',
+          name: 'Seminar',
         },
         {
           name: 'Festival',
+        },
+        {
+          name: 'Wisata',
+        },
+        {
+          name: 'Teater',
         },
       ],
     });
