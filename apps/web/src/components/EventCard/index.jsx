@@ -13,6 +13,7 @@ export const CardEvent = ({
   address,
   city,
   images,
+  ticket,
 }) => {
   const timeM = moment(time);
   const timeR = timeM.format('HH : mm');
@@ -45,7 +46,13 @@ export const CardEvent = ({
         <span className="fond-bold flex items-center gap-2">
           <FaMapLocation size={20} /> {address}, {city}
         </span>
-        <div className="card-actions justify-end">
+        <div className="card-actions items-center justify-between">
+          <span className="text-primary justify-start text-xl font-bold">
+            {ticket.toLocaleString('ID', {
+              style: 'currency',
+              currency: 'IDR',
+            })}
+          </span>
           <button className="btn btn-primary text-white">Buy Ticket</button>
         </div>
       </div>

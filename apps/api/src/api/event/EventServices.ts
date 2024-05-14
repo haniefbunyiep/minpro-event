@@ -1,5 +1,4 @@
-import moment from 'moment';
-import { prisma } from '@/lib/PrismaClient';
+import prisma from '@/prisma';
 
 export const updateEventServices = async (data: any, images: any, id: any) => {
   return await prisma.$transaction(async (tx) => {
@@ -54,15 +53,14 @@ export const createEventServices = async (
   data: any,
   images: any,
 ) => {
-  return await prisma.$transaction(async (tx: any) => {
-    const timeC = moment().format();
+  return await prisma.$transaction(async (tx) => {
     const createEvent = await tx.event.create({
       data: {
         eo: uid,
         name: data.name,
         startDate: new Date(data.startDate),
         endDate: new Date(data.endDate),
-        time: timeC,
+        time: new Date(),
         locationId: data.locationId,
         description: data.description,
         categoryId: data.categoryId,
@@ -104,16 +102,20 @@ export const findEventServices = async () => {
   });
 };
 
-// export const findEventServicesById = async ({ id }: any) => {
-//   return await prisma.event.findFirst({
-//     where: {
-//       id: Number(id),
-//     },
-//     include: {
-//       EventImage: true,
-//     },
-//   });
-// };
+export const findEventServicesById = async ({ id }: any) => {
+  const findEvent = await prisma.event.findUnique({
+    where: {
+      id: Number(id),
+    },
+    include: {
+      location: true,
+      category: true,
+      EventImage: true,
+      Ticket: true,
+    },
+  });
+  return findEvent;
+};
 
 // export const findTicketEventImages = async () => {
 //   return await prisma.$transaction(async (tx) => {

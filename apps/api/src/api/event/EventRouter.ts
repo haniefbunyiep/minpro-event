@@ -2,8 +2,7 @@ import { Router } from 'express';
 import {
   createEventController,
   findEventAllController,
-  // findEventController,
-  // findEventControllerById,
+  findEventControllerById,
   listEventController,
   updateEventController,
   findEventByEOId,
@@ -18,7 +17,7 @@ router.get('/list', listEventController);
 router.put('/edit-event/:id', uploader, updateEventController);
 router.get('/', findEventAllController);
 router.get('/dashboard', tokenVerify, findEventByEOId);
-// router.get('/test', findEventController);
-// router.get('/:id', findEventControllerById);
+router.get('/:id', findEventControllerById);
+
 
 export default router;

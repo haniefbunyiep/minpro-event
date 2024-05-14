@@ -22,7 +22,7 @@ export default function Home() {
           {data?.data.data.map((value, index) => {
             return (
               <div key={index}>
-                <Link href={'/event/detail/' + value.id}>
+                <Link href={`/event/detail/${value.id}`}>
                   <CardEvent
                     key={index}
                     name={value.name}
@@ -32,6 +32,7 @@ export default function Home() {
                     address={value.location.address}
                     city={value.location.city}
                     images={value?.EventImage?.url}
+                    ticket={value?.Ticket[0].price}
                   />
                 </Link>
               </div>
