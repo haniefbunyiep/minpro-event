@@ -6,6 +6,7 @@ import {
   findEventServices,
   // findEventServicesById,
   // findTicketEventImages,
+  findEventByEOIdService,
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';
@@ -165,3 +166,26 @@ export const findEventAllController = async (
 //     next(error);
 //   }
 // };
+
+export const findEventByEOId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const reqToken = req as IReqAccessToken;
+    const { uid } = reqToken.payload;
+
+    const findEventResultByEOIdResult = await findEventByEOIdService({ uid });
+
+    // console.log(findEventResultByEOIdResult);
+
+    res.status(201).send({
+      error: false,
+      message: 'Get Event By EO ID',
+      data: findEventResultByEOIdResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

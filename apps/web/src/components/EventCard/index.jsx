@@ -16,8 +16,6 @@ export const CardEvent = ({
 }) => {
   const timeM = moment(time);
   const timeR = timeM.format('HH : mm');
-  console.log(images);
-  console.log(timeR);
   const dateS = format(new Date(startDate), 'dd');
   const dateE = format(new Date(endDate), 'dd MMM yyyy');
   return (

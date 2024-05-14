@@ -1,5 +1,5 @@
-import prisma from '@/prisma';
 import moment from 'moment';
+import { prisma } from '@/lib/PrismaClient';
 
 export const updateEventServices = async (data: any, images: any, id: any) => {
   return await prisma.$transaction(async (tx) => {
@@ -131,3 +131,15 @@ export const findEventServices = async () => {
 //     return findEventImagesAndTicket;
 //   });
 // };
+
+export const findEventByEOIdService = async ({ uid }: { uid: string }) => {
+  return await prisma.event.findMany({
+    where: {
+      eo: uid,
+    },
+    include: {
+      category: true,
+      location: true,
+    },
+  });
+};
