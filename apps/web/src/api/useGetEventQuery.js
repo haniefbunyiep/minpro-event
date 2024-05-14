@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 export const useGetEventQuery = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['event'],
     queryFn: async () => {
       return await axios.get('http://localhost:8000/event/');
@@ -10,5 +10,6 @@ export const useGetEventQuery = () => {
   });
   return {
     data,
+    isLoading,
   };
 };

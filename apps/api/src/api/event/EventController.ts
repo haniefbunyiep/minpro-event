@@ -6,6 +6,7 @@ import {
   findEventServices,
   findEventServicesById,
   // findTicketEventImages,
+  findEventByEOIdService,
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';
@@ -129,6 +130,7 @@ export const findEventAllController = async (
     next(error);
   }
 };
+
 
 export const findEventControllerById = async (
   req: Request,
