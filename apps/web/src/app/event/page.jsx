@@ -2,6 +2,7 @@
 import { IoFilterSharp } from 'react-icons/io5';
 import { useGetEvent } from '../../hooks/useGetEvent';
 import { CardEvent } from '../../components/EventCard';
+import Link from 'next/link';
 
 export default function Event() {
   const { data } = useGetEvent();
@@ -78,15 +79,19 @@ export default function Event() {
               {data?.data.data.map((value, index) => {
                 return (
                   <div key={index}>
-                    <CardEvent
-                      key={index}
-                      name={value.name}
-                      startDate={value.startDate}
-                      endDate={value.endDate}
-                      time={value.time}
-                      address={value.location.address}
-                      city={value.location.city}
-                    />
+                    <Link href={`/event/detail/${value.id}`}>
+                      <CardEvent
+                        key={index}
+                        name={value.name}
+                        startDate={value.startDate}
+                        endDate={value.endDate}
+                        time={value.time}
+                        address={value.location.address}
+                        city={value.location.city}
+                        images={value?.EventImage?.url}
+                        ticket={value?.Ticket[0].price}
+                      />
+                    </Link>
                   </div>
                 );
               })}
