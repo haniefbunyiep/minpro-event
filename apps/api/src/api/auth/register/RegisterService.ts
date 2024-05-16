@@ -205,10 +205,12 @@ export const createEOService = async ({
   name,
   email,
   password,
+  username,
 }: ICreateEOParams) => {
   return await prisma.event_Organizer.create({
     data: {
       name: name,
+      username: username,
       email: email,
       password: password,
     },

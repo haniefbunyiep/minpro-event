@@ -131,21 +131,39 @@ export const findEventAllController = async (
   }
 };
 
-
 export const findEventControllerById = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   const { id } = req.params;
-  console.log('LLL');
-  console.log(id);
   const findEventByIdResult = await findEventServicesById({ id });
   try {
     res.status(200).send({
       error: false,
       message: 'Find Success',
       data: findEventByIdResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findEventByEOId = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const reqToken = req as IReqAccessToken;
+    const { uid } = reqToken.payload;
+
+    const findEventResultByEOIdResult = await findEventByEOIdService({ uid });
+
+    res.status(201).send({
+      error: false,
+      message: 'Get Event By EO ID',
+      data: findEventResultByEOIdResult,
     });
   } catch (error) {
     next(error);

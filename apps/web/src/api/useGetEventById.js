@@ -5,7 +5,6 @@ export const useGetEventByIdQuery = (eventID) => {
   const { data } = useQuery({
     queryKey: ['event', eventID],
     queryFn: async () => {
-      console.log(eventID);
       return await axios.get(`http://localhost:8000/event/${eventID}`);
     },
   });

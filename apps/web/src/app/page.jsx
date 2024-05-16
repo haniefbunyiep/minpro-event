@@ -32,7 +32,7 @@ export default function Home() {
                     address={value.location.address}
                     city={value.location.city}
                     images={value?.EventImage?.url}
-                    ticket={value?.Ticket[0].price}
+                    ticket={value?.Ticket[0]?.price}
                   />
                 </Link>
               </div>

@@ -48,7 +48,7 @@ export const CardEvent = ({
         </span>
         <div className="card-actions items-center justify-between">
           <span className="text-primary justify-start text-xl font-bold">
-            {ticket.toLocaleString('ID', {
+            {ticket?.toLocaleString('ID', {
               style: 'currency',
               currency: 'IDR',
             })}

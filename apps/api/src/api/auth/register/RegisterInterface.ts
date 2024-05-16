@@ -16,5 +16,6 @@ export interface ICreateEOParams {
   name: string;
   // phoneNumber?: string;
   email: string;
+  username: string;
   password: string;
 }

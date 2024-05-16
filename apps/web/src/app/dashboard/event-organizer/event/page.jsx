@@ -13,7 +13,6 @@ export default function EODashboardEvent() {
   const { mutationKeepLogin } = useKeepLogin();
   const { eventInfo, isLoading } = useGetEventByEOId();
   const navigate = useRouter();
-  const router = useRouter();
   const eventDataResult = eventInfo?.data?.data;
 
   useEffect(() => {
@@ -31,7 +30,7 @@ export default function EODashboardEvent() {
         <div className="absolute bottom-0 flex h-[90%] w-full flex-col gap-10 p-10">
           <p className="text-xl font-bold">Welcome back, {userData?.name}!</p>
           <div className="flex h-full flex-col items-center justify-start  rounded-md  p-6 shadow-2xl">
-            <div className="text-xl">Event List</div>
+            <div className="text-xl">Ticket Sale</div>
             <div className="divider w-full"></div>
             <div className="flex w-full flex-col gap-6">
               <div className="overflow-x-auto">

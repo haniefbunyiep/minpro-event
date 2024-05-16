@@ -6,6 +6,7 @@ import LocationRouter from './../location/LocationRouter';
 import DashboardRouter from './../dashboard/DashboardRouter';
 import TicketRouter from './../ticket/TicketRouter';
 import VoucherRouter from './../event/voucher/VoucherRouter';
+import TrasactionRouter from './../transaction/TransactionRouter';
 
 const router = Router();
 router.use(express.json());
@@ -18,5 +19,6 @@ router.use('/auth', AuthRouter);
 router.use('/location', LocationRouter);
 router.use('/dashboard', DashboardRouter);
 router.use('/event-voucher', VoucherRouter);
+router.use('/transaction', TrasactionRouter);
 
 export default router;

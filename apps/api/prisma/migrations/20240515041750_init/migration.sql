@@ -33,6 +33,7 @@ CREATE TABLE `user_point` (
 CREATE TABLE `event_organizers` (
     `uid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
+    `username` VARCHAR(191) NOT NULL,
     `phoneNumber` VARCHAR(191) NULL,
     `email` VARCHAR(191) NOT NULL,
     `password` VARCHAR(191) NOT NULL,
@@ -42,6 +43,7 @@ CREATE TABLE `event_organizers` (
     `updatedAt` DATETIME(3) NOT NULL,
     `deletedAt` DATETIME(3) NULL,
 
+    UNIQUE INDEX `event_organizers_username_key`(`username`),
     PRIMARY KEY (`uid`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -86,9 +88,9 @@ CREATE TABLE `events` (
     `name` VARCHAR(191) NOT NULL,
     `startDate` DATE NOT NULL,
     `endDate` DATE NOT NULL,
-    `time` TIME NOT NULL,
+    `time` TIMESTAMP NOT NULL,
     `locationId` INTEGER NOT NULL,
-    `description` VARCHAR(191) NOT NULL,
+    `description` LONGTEXT NOT NULL,
     `categoryId` INTEGER NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL,
@@ -239,13 +241,13 @@ ALTER TABLE `use_referral` ADD CONSTRAINT `use_referral_referralCodeId_fkey` FOR
 ALTER TABLE `use_referral` ADD CONSTRAINT `use_referral_useBy_fkey` FOREIGN KEY (`useBy`) REFERENCES `users`(`uid`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `events` ADD CONSTRAINT `events_eo_fkey` FOREIGN KEY (`eo`) REFERENCES `event_organizers`(`uid`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `events` ADD CONSTRAINT `events_locationId_fkey` FOREIGN KEY (`locationId`) REFERENCES `event_location`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `events` ADD CONSTRAINT `events_categoryId_fkey` FOREIGN KEY (`categoryId`) REFERENCES `event_categories`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE `events` ADD CONSTRAINT `events_locationId_fkey` FOREIGN KEY (`locationId`) REFERENCES `event_location`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `events` ADD CONSTRAINT `events_eo_fkey` FOREIGN KEY (`eo`) REFERENCES `event_organizers`(`uid`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `event_images` ADD CONSTRAINT `event_images_eventId_fkey` FOREIGN KEY (`eventId`) REFERENCES `events`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
