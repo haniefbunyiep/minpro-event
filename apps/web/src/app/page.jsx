@@ -1,11 +1,11 @@
 'use client';
 import { CardEvent } from './../components/EventCard';
 import { CarouselPage } from './../components/Carousel';
-import { useGetEvent } from '../hooks/useGetEvent';
+import { useGetAllEvent } from './../hooks/useGetEventAll';
 import Link from 'next/link';
 
 export default function Home() {
-  const { data } = useGetEvent();
+  const { data } = useGetAllEvent();
   return (
     <div className="min-h-screen">
       <div className="overflow-hidden px-2 py-5">
@@ -16,7 +16,7 @@ export default function Home() {
         <h1 className="mobile:text-xl font-bold sm:text-2xl">EVENT TERDEKAT</h1>
       </div>
       <div className="flex items-center justify-center">
-        <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-2 lg:grid-cols-4 ">
+        <div className="xxl:grid-cols-4 grid grid-cols-1 gap-10 py-12 md:grid-cols-2 xl:grid-cols-3">
           {data?.data.data.map((value, index) => {
             return (
               <div key={index}>
@@ -30,7 +30,7 @@ export default function Home() {
                     address={value.location.address}
                     city={value.location.city}
                     images={value?.EventImage?.url}
-                    ticket={value?.Ticket[0].price}
+                    ticket={value?.Ticket[0]?.price}
                   />
                 </Link>
               </div>

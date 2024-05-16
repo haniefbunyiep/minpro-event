@@ -36,6 +36,12 @@ export default function EventRegisterPage() {
   };
   return (
     <div>
+      <div className="mobile:bottom-10 absolute left-0 right-0 flex flex-col items-center justify-center sm:bottom-[110px] xl:bottom-0">
+        <h1 className="py-1 text-center text-sm font-bold">
+          Have Another Location?
+        </h1>
+        <ModalCreateLocation />
+      </div>
       <Formik
         initialValues={{
           name: '',
@@ -123,6 +129,28 @@ export default function EventRegisterPage() {
                 />
               </label>
             </div>
+            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+                <div className="label">
+                  <span className="label-text">Category Event</span>
+                </div>
+                <Field
+                  component="select"
+                  id="categoryId"
+                  name="categoryId"
+                  className="select select-bordered mobile:w-[40vh] w-[70vh] lg:w-[100vh]"
+                >
+                  <option>Choose Category</option>
+                  {dataCategory?.map((category, index) => {
+                    return (
+                      <option value={category.id} key={index}>
+                        {category.name}
+                      </option>
+                    );
+                  })}
+                </Field>
+              </label>
+            </div>
 
             <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
               <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
@@ -146,29 +174,7 @@ export default function EventRegisterPage() {
                 </Field>
               </label>
             </div>
-            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
-              <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
-                <div className="label">
-                  <span className="label-text">Category Event</span>
-                </div>
-                <Field
-                  component="select"
-                  id="categoryId"
-                  name="categoryId"
-                  className="select select-bordered mobile:w-[40vh] w-[70vh] lg:w-[100vh]"
-                >
-                  <option>Choose Category</option>
-                  {dataCategory?.map((category, index) => {
-                    return (
-                      <option value={category.id} key={index}>
-                        {category.name}
-                      </option>
-                    );
-                  })}
-                </Field>
-              </label>
-            </div>
-            <div className="mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
+            <div className="mobile:w-[40vh] w-[70vh] pt-[75px] lg:w-[100vh]">
               <label className="form-control mobile:w-[40vh] w-[70vh] lg:w-[100vh]">
                 <div className="label">
                   <span className="label-text">Description Event</span>
@@ -204,12 +210,6 @@ export default function EventRegisterPage() {
           </div>
         </Form>
       </Formik>
-      {/* <div className="mobile:pl-[50px] mobile:bottom-[200px] absolute flex flex-col items-center justify-center pl-[590px]">
-        <h1 className="py-1 text-center text-sm font-bold">
-          Have Another Location?
-        </h1>
-        <ModalCreateLocation />
-      </div> */}
     </div>
   );
 }

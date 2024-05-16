@@ -27,7 +27,7 @@ export const EventDetailParams = ({
   const dateE = format(new Date(endDate), 'dd MMM yyyy');
   return (
     <div>
-      <div className="grid min-h-screen grid-cols-3 gap-5 overflow-hidden">
+      <div className="grid min-h-screen grid-cols-1 gap-5 overflow-hidden xl:grid-cols-3">
         <div className="col-span-2 w-full">
           <div className="bg-congressBlue flex h-[35px] w-[80px] items-center justify-center rounded-lg border border-blue-800 tracking-wide text-white">
             <h1 className="text-sm font-bold">{category}</h1>
@@ -36,27 +36,29 @@ export const EventDetailParams = ({
           <Image
             src={'http://localhost:8000/' + images}
             alt="Heptatix"
-            className="mobile:w-[100vw] mobile:h-[150px] h-[250px] rounded-lg pt-10 md:w-[55vw] lg:h-[300px] lg:w-[60vw] xl:h-[400px] xl:w-[50vw]"
+            className="mobile:w-[100vw] mobile:h-[200px] h-[300px] rounded-lg pt-10 sm:w-[100vw] lg:h-[300px] lg:w-[60vw] xl:h-[350px] xl:w-[50vw]"
             width={10000}
             height={10000}
             quality={100}
             priority={true}
           />
-          <div>
-            <div className="flex w-[30vw] gap-7 pt-10">
-              <div className="flex h-[40px] w-[120px] cursor-pointer items-center justify-center rounded-full bg-blue-50 tracking-wide">
-                <h1 className="text-sm font-bold text-blue-600">Deskripsi</h1>
+          <div className="card bg-base-100 shadow-xl">
+            <div className="card-body">
+              <div className="flex gap-7 pt-10 sm:w-[30vw]">
+                <div className="flex cursor-pointer items-center justify-center rounded-full bg-blue-50 tracking-wide sm:h-[40px] sm:w-[120px]">
+                  <h1 className="text-sm font-bold text-blue-600">Deskripsi</h1>
+                </div>
               </div>
+              <div className=" px-2 pt-10 text-justify">
+                <h1 className="pb-5 text-xl font-bold">Deskripsi Event</h1>
+                <p className="pb-5">{description}</p>
+              </div>
+              <SandKEventDetail />
             </div>
-            <div className=" px-2 pt-10 text-justify">
-              <h1 className="pb-5 text-xl font-bold">Deskripsi Event</h1>
-              <p className="pb-5">{description}</p>
-            </div>
-            <SandKEventDetail />
           </div>
         </div>
         <div className="flex flex-col pt-[120px]">
-          <div className="card bg-base-100 w-[50vh] shadow-xl">
+          <div className="card bg-base-100 xxl:w-[45vh] shadow-xl xl:w-[35vh]">
             <div className="card-body">
               <h1 className="pb-5 text-xl font-bold">Detail Event</h1>
               <div className="flex gap-2 py-3">
@@ -87,7 +89,7 @@ export const EventDetailParams = ({
             </div>
           </div>
           <div className="pt-10">
-            <div className="card bg-base-100 w-[50vh] shadow-xl">
+            <div className="card bg-base-100 xxl:w-[45vh] shadow-xl xl:w-[35vh]">
               <div className="card-body">
                 <div className=" flex items-center gap-2 font-medium tracking-wide">
                   <h1 className="text-xl font-bold">Pilih Ticket</h1>
@@ -96,12 +98,12 @@ export const EventDetailParams = ({
                   {ticket?.map((value, index) => {
                     return (
                       <div key={index} className="py-5">
-                        <div className="card h-[180px] w-[40vh] bg-blue-50 px-5 shadow-xl">
+                        <div className="card xxl:h-[180px] xxl:w-[36vh] h-[180px] bg-blue-50 px-5 shadow-xl xl:w-[30vh]">
                           <div className="pt-5">
                             <h1 className="font-bold">{value.name}</h1>
                           </div>
                           <div className="divider px-4"></div>
-                          <div className="flex items-center justify-between">
+                          <div className="xxl:flex-row flex items-center justify-between xl:flex-col xl:gap-2">
                             <h1 className="font-bold">
                               {value.price.toLocaleString('ID', {
                                 style: 'currency',

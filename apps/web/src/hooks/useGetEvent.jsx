@@ -1,8 +1,8 @@
 import { useGetEventQuery } from '../api/useGetEventQuery';
 
-export const useGetEvent = () => {
-  const { data } = useGetEventQuery();
-  console.log(data);
+export const useGetEvent = (city, category) => {
+  const { data } = useGetEventQuery(city, category);
+
   return {
     data,
   };

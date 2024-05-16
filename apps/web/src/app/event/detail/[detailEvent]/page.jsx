@@ -8,7 +8,7 @@ export default function EventDetail(params) {
 
   if (data == undefined) return <div>Loading...</div>;
   return (
-    <div className="mobile:px-2 min-h-screen overflow-hidden px-[200px] py-10">
+    <div className="mobile:px-2 min-h-screen overflow-hidden py-10 lg:px-[200px]">
       <div>
         <EventDetailParams
           name={data?.data?.data.name}

@@ -26,31 +26,6 @@ const Footer = () => {
           </div>
           <div className="grid grid-cols-2 gap-x-3 gap-y-8 text-sm sm:grid-cols-4 lg:w-2/3">
             <div className="space-y-3">
-              <h3 className="uppercase tracking-wide text-white">Product</h3>
-              <ul className="space-y-1">
-                <li>
-                  <a rel="noopener noreferrer" href="#">
-                    Features
-                  </a>
-                </li>
-                <li>
-                  <a rel="noopener noreferrer" href="#">
-                    Integrations
-                  </a>
-                </li>
-                <li>
-                  <a rel="noopener noreferrer" href="#">
-                    Pricing
-                  </a>
-                </li>
-                <li>
-                  <a rel="noopener noreferrer" href="#">
-                    FAQ
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div className="space-y-3">
               <h3 className="uppercase tracking-wide text-white">Company</h3>
               <ul className="space-y-1">
                 <li>
