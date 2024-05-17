@@ -7,8 +7,11 @@ import { FaMapLocation } from 'react-icons/fa6';
 import { SandKEventDetail } from '@/components/S&K';
 import moment from 'moment';
 import { IoFilterSharp } from 'react-icons/io5';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export const EventDetailParams = ({
+  eventId,
   name,
   startDate,
   endDate,
@@ -20,8 +23,17 @@ export const EventDetailParams = ({
   description,
   category,
 }) => {
+  const [qty, setQty] = useState(1);
+  const handleClick = () => {
+    setQty((prevCount) => Math.max(prevCount - 1, 0));
+  };
+  console.log(qty);
+  const navigate = useRouter();
+  // console.log(eventId);
+
+  // console.log(qty);
   const timeM = moment(time);
-  // console.log(ticket);
+
   const timeR = timeM.format('HH : mm');
   const dateS = format(new Date(startDate), 'dd');
   const dateE = format(new Date(endDate), 'dd MMM yyyy');
@@ -111,12 +123,65 @@ export const EventDetailParams = ({
                               })}
                             </h1>
                             <button
-                              className="btn btn-primary w-[100px] text-white"
-                              type="button"
+                              className="btn bg-azureBlue text-white"
+                              onClick={() => {
+                                document.getElementById(index).showModal();
+                                setQty(1);
+                              }}
                             >
                               Pilih
                             </button>
+                            <dialog id={index} className="modal">
+                              <div className="modal-box flex flex-col gap-6">
+                                <h3 className="text-lg font-bold">
+                                  Ticket&nbsp;{value?.name}
+                                </h3>
+                                <p className="py-4">
+                                  Masukkan jumlah tiket yang ingin dibeli
+                                </p>
+                                <div className="flex items-center justify-between px-10">
+                                  <div
+                                    onClick={handleClick}
+                                    className="btn bg-azureBlue hover:bg-dodgerBlue w-[70px] text-white"
+                                  >
+                                    -
+                                  </div>
+                                  <div className="btn bg-azureBlue hover:bg-azureBlue w-[70px] text-white">
+                                    {qty}
+                                  </div>
+                                  <div
+                                    onClick={() => {
+                                      if (qty >= value?.quantity) {
+                                        return value?.quantity;
+                                      } else {
+                                        return setQty(qty + 1);
+                                      }
+                                    }}
+                                    className="btn bg-azureBlue hover:bg-dodgerBlue w-[70px] text-white"
+                                  >
+                                    +
+                                  </div>
+                                </div>
+                                <div
+                                  onClick={() => {
+                                    navigate.push(
+                                      `/transaction?event=${eventId}&ticket=${value?.id}&qty=${qty}`,
+                                    );
+                                    console.log(value?.id);
+                                  }}
+                                  className="btn bg-azureBlue hover:bg-dodgerBlue text-white"
+                                >
+                                  Beli
+                                </div>
+                                <div className="modal-action">
+                                  <form method="dialog">
+                                    <button className="btn">Close</button>
+                                  </form>
+                                </div>
+                              </div>
+                            </dialog>
                           </div>
+                          <div>Ticket Stock&nbsp;{value?.quantity}</div>
                         </div>
                       </div>
                     );

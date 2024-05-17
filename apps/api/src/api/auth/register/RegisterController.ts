@@ -139,7 +139,7 @@ export const eoRegister = async (
   next: NextFunction,
 ) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, username } = req.body;
 
     const findEOByEmail = await findEOByemailService({ email });
 
@@ -150,6 +150,7 @@ export const eoRegister = async (
     const createEOResult = await createEOService({
       name,
       email,
+      username,
       password: hashedPassword,
     });
 

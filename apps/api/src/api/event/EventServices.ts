@@ -54,9 +54,15 @@ export const createEventServices = async (
   images: any,
 ) => {
   return await prisma.$transaction(async (tx) => {
+    const findEOById = await prisma.event_Organizer.findUnique({
+      where: {
+        uid: uid,
+      },
+    });
+
     const createEvent = await tx.event.create({
       data: {
-        eo: uid,
+        eoUsername: findEOById?.username!,
         name: data.name,
         startDate: new Date(data.startDate),
         endDate: new Date(data.endDate),
@@ -162,9 +168,15 @@ export const findEventServicesById = async ({ id }: any) => {
 };
 
 export const findEventByEOIdService = async ({ uid }: { uid: string }) => {
+  const findEOById = await prisma.event_Organizer.findUnique({
+    where: {
+      uid: uid,
+    },
+  });
+
   return await prisma.event.findMany({
     where: {
-      eo: uid,
+      eoUsername: findEOById?.username,
     },
     include: {
       category: true,

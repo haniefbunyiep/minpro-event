@@ -13,7 +13,8 @@ export const useEORegister = () => {
     },
     onError: (err) => {
       //   console.log(err.response.data.message);
-      toast.error(err.response.data.message);
+      // toast.error(err.response.data.message);
+      console.log(err);
     },
   });
 

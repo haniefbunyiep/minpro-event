@@ -39,7 +39,7 @@ export const tokenVerify = (
     const { accesstoken } = req.headers;
     // console.log(accesstoken);
 
-    if (!accesstoken) throw new Error('Token Must Provided!');
+    if (!accesstoken) throw new Error('Please login first!');
 
     const decodedPayload = jwt.verify(
       accesstoken as string,

@@ -10,8 +10,10 @@ import Loading from './../../../../../components/cores/Loading';
 export default function EventDetail(params) {
   const { userData } = useContext(UserContext);
   const { mutationKeepLogin } = useKeepLogin();
-  const { getEvent, isLoading } = getEventbyId(params.params.eventDetail);
-
+  const { getEvent, isLoading, error } = getEventbyId(
+    params.params.eventDetail,
+  );
+  console.log(error);
   const eventData = getEvent?.data?.data;
   const eventTicket = eventData?.Ticketinfo;
   useEffect(() => {

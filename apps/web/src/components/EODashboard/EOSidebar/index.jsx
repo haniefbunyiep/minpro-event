@@ -76,7 +76,7 @@ export default function EOSidebar() {
               size={22}
               className="text-blueBay hover:text-white"
             />
-            <a>Ticket Sales</a>
+            <Link href={'/dashboard/event-organizer/sales'}>Ticket Sales</Link>
           </li>
           <li className="hover:bg-azureBlue text-md flex h-[40px]  items-center justify-start gap-2 rounded-md p-2 hover:text-white">
             <MdNewspaper size={22} className="text-blueBay hover:text-white" />

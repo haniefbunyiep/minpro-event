@@ -29,10 +29,13 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Review       Review[]
-  Transaction  Transaction[]
-  Use_Referral Use_Referral[]
-  User_Voucher User_Voucher[]
+  Review            Review[]
+  Promotion         Promotion[]
+  Transaction       Transaction[]
+  Use_Referral      Use_Referral[]
+  User_Voucher      User_Voucher[]
+  TransactionDetail TransactionDetail[]
+  Use_User_Voucher  Use_User_Voucher[]
 
   @@map("users")
 }
@@ -60,6 +63,7 @@ model User_Point {
 model Event_Organizer {
   uid         String              @id @default(cuid())
   name        String
+  username    String              @unique
   phoneNumber String?
   email       String
   password    String
@@ -126,7 +130,7 @@ model Role {
 
 model Event {
   id          Int      @id @default(autoincrement())
-  eo          String
+  eoUsername  String
   name        String
   startDate   DateTime @db.Date
   endDate     DateTime @db.Date
@@ -137,17 +141,21 @@ model Event {
 
   location       Location        @relation(fields: [locationId], references: [id])
   category       Category        @relation(fields: [categoryId], references: [id])
-  eventOrganizer Event_Organizer @relation(fields: [eo], references: [uid])
+  eventOrganizer Event_Organizer @relation(fields: [eoUsername], references: [username])
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Ticket Ticket[]
-
-  EventImage EventImage?
+  Ticket            Ticket[]
+  Voucher           Voucher[]
+  EventImage        EventImage?
+  Transaction       Transaction[]
+  TransactionDetail TransactionDetail[]
+  Use_User_Voucher  Use_User_Voucher[]
   Promotion  Promotion[]
   Review     Review[]
+
 
   @@map("events")
 }
@@ -192,6 +200,10 @@ model Ticket {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  Voucher           Voucher[]
+  Transaction       Transaction[]
+  TransactionDetail TransactionDetail[]
+  
   @@map("event_tickets")
 }
 
@@ -212,20 +224,49 @@ model Review {
 }
 
 model Transaction {
-  id         Int      @id @default(autoincrement())
-  date       DateTime @db.Date
-  time       DateTime @db.Time()
-  userId     String
-  user       User     @relation(fields: [userId], references: [uid])
-  name       String
-  ticketType String
-  quantity   Int
+  id           Int      @id @default(autoincrement())
+  eventId      Int
+  userId       String
+  ticketType   Int
+  voucherUse   String?  @default("no")
+  buyDate      DateTime @db.Date
+  quantity     Int
+  subTotal     Int
+  pointUse     Int
+  totalPayment Int
+
+  event  Event  @relation(fields: [eventId], references: [id])
+  user   User   @relation(fields: [userId], references: [uid])
+  ticket Ticket @relation(fields: [ticketType], references: [id])
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
+  TransactionDetail TransactionDetail[]
+
   @@map("transactions")
+}
+
+model TransactionDetail {
+  id            Int      @id @default(autoincrement())
+  ticketCode    String
+  transactionId Int
+  eventId       Int
+  userId        String
+  ticketType    Int
+  buyDate       DateTime @db.Date
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+  event       Event       @relation(fields: [eventId], references: [id])
+  user        User        @relation(fields: [userId], references: [uid])
+  ticket      Ticket      @relation(fields: [ticketType], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("transactions_detail")
 }
 
 model Promotion {
@@ -253,9 +294,10 @@ model User_Voucher {
 
   user User @relation(fields: [userId], references: [uid])
 
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  deletedAt        DateTime?
+  Use_User_Voucher Use_User_Voucher[]
 
   @@map("user_voucher")
 }
@@ -277,4 +319,21 @@ model Category {
   Event Event[]
 
   @@map("event_categories")
+}
+
+model Use_User_Voucher {
+  id        Int    @id @default(autoincrement())
+  eventId   Int
+  userId    String
+  voucherId Int
+
+  event        Event        @relation(fields: [eventId], references: [id])
+  user         User         @relation(fields: [userId], references: [uid])
+  user_voucher User_Voucher @relation(fields: [voucherId], references: [id])
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("use_user_voucher")
 }

@@ -5,5 +5,7 @@
 
 */
 -- AlterTable
-ALTER TABLE `events` MODIFY `time` TIMESTAMP NOT NULL,
-    MODIFY `description` LONGTEXT NOT NULL;
+ALTER TABLE `events` MODIFY `time` TIMESTAMP NOT NULL;
+
+-- AlterTable
+ALTER TABLE `transactions` ALTER COLUMN `pointUse` DROP DEFAULT;
