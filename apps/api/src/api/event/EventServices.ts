@@ -160,3 +160,16 @@ export const findEventServicesById = async ({ id }: any) => {
   });
   return findEvent;
 };
+
+export const findEventByEOIdService = async ({ uid }: { uid: string }) => {
+  return await prisma.event.findMany({
+    where: {
+      eo: uid,
+    },
+    include: {
+      category: true,
+      location: true,
+    },
+  });
+};
+

@@ -6,6 +6,13 @@ import Link from 'next/link';
 
 export default function Home() {
   const { data } = useGetAllEvent();
+import { useGetEvent } from '../hooks/useGetEvent';
+import Loading from './../components/cores/Loading';
+import Link from 'next/link';
+
+export default function Home() {
+  const { data, isLoading } = useGetEvent();
+  if (isLoading) return <Loading></Loading>;
   return (
     <div className="min-h-screen">
       <div className="overflow-hidden px-2 py-5">

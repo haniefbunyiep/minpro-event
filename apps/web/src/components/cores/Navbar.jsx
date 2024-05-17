@@ -5,12 +5,8 @@ import {
   deleteCookie,
   deleteRoleCookie,
   deleteEORoleCookie,
-  getEORoleCookie,
-  getRoleCookie,
-  getCookie,
 } from '../../utils/Cookies';
 import { useKeepLogin } from '../../hooks/useKeepLogin';
-import { MdEvent } from 'react-icons/md';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
@@ -29,7 +25,6 @@ export default function Navbar() {
     localStorage.removeItem('usr');
     setUserData(null);
     navigate.push('/');
-    // window.location.reload();
   };
 
   useEffect(() => {

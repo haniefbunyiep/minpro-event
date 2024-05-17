@@ -6,6 +6,8 @@ import {
   findEventServices,
   findEventAllServices,
   findEventServicesById,
+  findEventByEOIdService,
+  
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';

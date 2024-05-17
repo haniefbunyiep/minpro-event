@@ -11,6 +11,7 @@ export const createTicketController = async (
   next: NextFunction,
 ) => {
   const { eventId, name, price, quantity } = req.body;
+  console.log(name);
   try {
     const createTicketResult = await createTicketEventServices({
       eventId,

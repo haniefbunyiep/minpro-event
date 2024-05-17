@@ -21,3 +21,23 @@ export const getUserinfoService = async ({ uid }: { uid: string }) => {
     userVoucher,
   };
 };
+
+export const getEventByIdService = async ({ id }: { id: number }) => {
+  return await prisma.event.findUnique({
+    where: {
+      id: id,
+    },
+    include: {
+      location: true,
+      category: true,
+    },
+  });
+};
+
+export const getTicketByEventIdService = async ({ id }: { id: number }) => {
+  return await prisma.ticket.findMany({
+    where: {
+      eventId: id,
+    },
+  });
+};

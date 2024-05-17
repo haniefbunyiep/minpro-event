@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from 'express';
 import { IReqAccessToken } from './../../helpers/Token/TokenType';
-import { getUserinfoService } from './DashboardService';
+import {
+  getUserinfoService,
+  getEventByIdService,
+  getTicketByEventIdService,
+} from './DashboardService';
 
 export const getUserInfo = async (
   req: Request,
@@ -26,6 +30,42 @@ export const getUserInfo = async (
         point: userInfo?.point.point,
         pointExpire: userInfo?.point.expireAt,
         voucher: userVoucher,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getEventById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const reqToken = req as IReqAccessToken;
+    const { uid } = reqToken.payload;
+    const { id } = req.params;
+    const idToNumber = Number(id);
+    // console.log(typeof idToNumber);
+
+    const getEventByIdResult = await getEventByIdService({
+      id: idToNumber,
+    });
+
+    const getTicketByEventIdResult = await getTicketByEventIdService({
+      id: idToNumber,
+    });
+
+    // console.log(getEventByIdResult);
+    // console.log(getTicketByEventIdResult);
+
+    res.status(201).send({
+      error: false,
+      message: 'Get Event info and ticket',
+      data: {
+        eventInfo: getEventByIdResult,
+        Ticketinfo: getTicketByEventIdResult,
       },
     });
   } catch (error) {
