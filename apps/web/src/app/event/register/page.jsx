@@ -39,6 +39,12 @@ export default function EventRegisterPage() {
   };
   return (
     <div>
+      <div className="mobile:bottom-10 absolute left-0 right-0 flex flex-col items-center justify-center sm:bottom-[110px] xl:bottom-0">
+        <h1 className="py-1 text-center text-sm font-bold">
+          Have Another Location?
+        </h1>
+        <ModalCreateLocation />
+      </div>
       <Formik
         initialValues={{
           name: '',
@@ -233,12 +239,6 @@ export default function EventRegisterPage() {
           </div>
         </Form>
       </Formik>
-      {/* <div className="mobile:pl-[50px] mobile:bottom-[200px] absolute flex flex-col items-center justify-center pl-[590px]">
-        <h1 className="py-1 text-center text-sm font-bold">
-          Have Another Location?
-        </h1>
-        <ModalCreateLocation />
-      </div> */}
     </div>
   );
 }

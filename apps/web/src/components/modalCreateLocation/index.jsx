@@ -9,7 +9,7 @@ export const ModalCreateLocation = () => {
   return (
     <div className="">
       <button
-        className="btn bg-congressBlue w-[50vh] text-white"
+        className="btn bg-congressBlue text-white sm:w-[50vh]"
         onClick={() => document.getElementById('my_modal_1').showModal()}
       >
         Create Location

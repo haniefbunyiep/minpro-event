@@ -1,7 +1,8 @@
 import { useGetEventQuery } from '../api/useGetEventQuery';
 
-export const useGetEvent = () => {
-  const { data, isLoading } = useGetEventQuery();
+
+export const useGetEvent = (city,category) => {
+  const { data, isLoading } = useGetEventQuery(city, category);
 
   return {
     data,

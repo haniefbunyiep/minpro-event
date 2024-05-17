@@ -4,9 +4,10 @@ import {
   listEventServices,
   updateEventServices,
   findEventServices,
+  findEventAllServices,
   findEventServicesById,
-  // findTicketEventImages,
   findEventByEOIdService,
+  
 } from './EventServices';
 import { deletedUploadFile } from '@/helpers/DeletedFile';
 import { IReqAccessToken } from '@/helpers/Token/TokenType';
@@ -86,45 +87,39 @@ export const listEventController = async (
     next(error);
   }
 };
-
-// export const findEventController = async (
-//   req: Request,
-//   res: Response,
-//   next: NextFunction,
-// ) => {
-//   try {
-//     const findEventResult = await findTicketEventImages();
-//     res.status(200).send({
-//       error: false,
-//       message: 'Find Success',
-//       data: {
-//         images: findEventResult[0].url,
-//         nameEvent: findEventResult[0].event.name,
-//         startDate: findEventResult[0].event.startDate,
-//         endDate: findEventResult[0].event.endDate,
-//         time: findEventResult[0].event.time,
-//         address: findEventResult[0].event.location.address,
-//         city: findEventResult[0].event.location.city,
-//         category: findEventResult[0].event.category.name,
-//         nameTicket: findEventResult[0].event.Ticket[0].name,
-//         price: findEventResult[0].event.Ticket[0].price,
-//       },
-//     });
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-export const findEventAllController = async (
+export const findEventControllerQuery = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
+  // const { location, category } = req.query;
+  const city = req.query.city as string | undefined;
+  const category = req.query.category as string | undefined;
+
   try {
-    const findEventResult = await findEventServices();
+    const findEventResult = await findEventServices(city, category);
+    if (findEventResult.length === 0) throw new Error('Event Not Found');
     res.status(200).send({
       error: false,
       message: 'Find Success',
       data: findEventResult,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const findEventController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const findEventByIdResult = await findEventAllServices();
+  try {
+    res.status(200).send({
+      error: false,
+      message: 'Find Success',
+      data: findEventByIdResult,
     });
   } catch (error) {
     next(error);

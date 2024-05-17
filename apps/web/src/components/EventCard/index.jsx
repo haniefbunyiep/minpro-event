@@ -20,7 +20,7 @@ export const CardEvent = ({
   const dateS = format(new Date(startDate), 'dd');
   const dateE = format(new Date(endDate), 'dd MMM yyyy');
   return (
-    <div className="card card-compact bg-base-100 w-[350px] shadow-xl">
+    <div className="card card-compact bg-base-100 w-[320px] shadow-xl">
       <figure>
         {images ? (
           <Image
@@ -30,7 +30,7 @@ export const CardEvent = ({
             height={10000}
             quality={100}
             priority={true}
-            className="h-[100px]"
+            className="h-[150px]"
           />
         ) : null}
       </figure>
@@ -48,10 +48,12 @@ export const CardEvent = ({
         </span>
         <div className="card-actions items-center justify-between">
           <span className="text-primary justify-start text-xl font-bold">
-            {ticket?.toLocaleString('ID', {
-              style: 'currency',
-              currency: 'IDR',
-            })}
+            {ticket
+              ? ticket.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'IDR',
+                })
+              : 'Free'}
           </span>
           <button className="btn btn-primary text-white">Buy Ticket</button>
         </div>
