@@ -5,7 +5,8 @@ import AuthRouter from './../auth/AuthRouter';
 import LocationRouter from './../location/LocationRouter';
 import DashboardRouter from './../dashboard/DashboardRouter';
 import TicketRouter from './../ticket/TicketRouter';
-import VoucherRouter from './../event/voucher/VoucherRouter';
+import PromotionsRouter from './../promotions/PromotionsRouter';
+import ReviewRouter from './../review/ReviewRouter';
 
 const router = Router();
 router.use(express.json());
@@ -17,6 +18,7 @@ router.use('/ticket', TicketRouter);
 router.use('/auth', AuthRouter);
 router.use('/location', LocationRouter);
 router.use('/dashboard', DashboardRouter);
-router.use('/event-voucher', VoucherRouter);
+router.use('/promotions', PromotionsRouter);
+router.use('/review', ReviewRouter);
 
 export default router;

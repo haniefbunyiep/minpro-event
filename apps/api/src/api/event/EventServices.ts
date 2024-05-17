@@ -91,7 +91,41 @@ export const listEventServices = async ({ page, per_page }: any) => {
   }
 };
 
-export const findEventServices = async () => {
+export const findEventServices = async (city?: string, category?: string) => {
+  if (city) {
+    return await prisma.event.findMany({
+      where: {
+        location: {
+          city: {
+            contains: city,
+          },
+        },
+      },
+      include: {
+        location: true,
+        category: true,
+        EventImage: true,
+        Ticket: true,
+      },
+    });
+  }
+  if (category) {
+    return await prisma.event.findMany({
+      where: {
+        category: {
+          name: {
+            contains: category,
+          },
+        },
+      },
+      include: {
+        location: true,
+        category: true,
+        EventImage: true,
+        Ticket: true,
+      },
+    });
+  }
   return await prisma.event.findMany({
     include: {
       location: true,
@@ -102,6 +136,16 @@ export const findEventServices = async () => {
   });
 };
 
+export const findEventAllServices = async () => {
+  return await prisma.event.findMany({
+    include: {
+      location: true,
+      category: true,
+      EventImage: true,
+      Ticket: true,
+    },
+  });
+};
 export const findEventServicesById = async ({ id }: any) => {
   const findEvent = await prisma.event.findUnique({
     where: {
@@ -117,23 +161,6 @@ export const findEventServicesById = async ({ id }: any) => {
   return findEvent;
 };
 
-// export const findTicketEventImages = async () => {
-//   return await prisma.$transaction(async (tx) => {
-//     const findEventImagesAndTicket = await tx.eventImage.findMany({
-//       include: {
-//         event: {
-//           include: {
-//             location: true,
-//             category: true,
-//             Ticket: true,
-//           },
-//         },
-//       },
-//     });
-//     return findEventImagesAndTicket;
-//   });
-// };
-
 export const findEventByEOIdService = async ({ uid }: { uid: string }) => {
   return await prisma.event.findMany({
     where: {
@@ -145,3 +172,4 @@ export const findEventByEOIdService = async ({ uid }: { uid: string }) => {
     },
   });
 };
+

@@ -30,7 +30,6 @@ model User {
   deletedAt DateTime?
 
   Review       Review[]
-  Promotion    Promotion[]
   Transaction  Transaction[]
   Use_Referral Use_Referral[]
   User_Voucher User_Voucher[]
@@ -144,9 +143,11 @@ model Event {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Ticket     Ticket[]
-  Voucher    Voucher[]
+  Ticket Ticket[]
+
   EventImage EventImage?
+  Promotion  Promotion[]
+  Review     Review[]
 
   @@map("events")
 }
@@ -191,8 +192,6 @@ model Ticket {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Voucher Voucher[]
-
   @@map("event_tickets")
 }
 
@@ -202,6 +201,8 @@ model Review {
   user     User   @relation(fields: [userId], references: [uid])
   rating   String
   feedback String
+  eventId  Int
+  event    Event  @relation(fields: [eventId], references: [id])
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
@@ -228,37 +229,18 @@ model Transaction {
 }
 
 model Promotion {
-  id        Int     @id @default(autoincrement())
-  userId    String
-  user      User    @relation(fields: [userId], references: [uid])
-  voucherId Int
-  voucher   Voucher @relation(fields: [voucherId], references: [id])
-
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  deletedAt DateTime?
-
-  @@map("event_promotions")
-}
-
-model Voucher {
   id              Int    @id @default(autoincrement())
-  name            String
-  code            String
+  codeVoucher     String
   eventId         Int
   event           Event  @relation(fields: [eventId], references: [id])
-  ticketId        Int
-  ticket          Ticket @relation(fields: [ticketId], references: [id])
-  discountVoucher Int    @default(10)
+  discountVoucher Int
   stok            Int
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 
-  Promotion Promotion[]
-
-  @@map("event_vouchers")
+  @@map("event_promotions")
 }
 
 model User_Voucher {
